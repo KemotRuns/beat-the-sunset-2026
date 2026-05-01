@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#2e0f78"/>
+      <stop offset="58%"  stop-color="#c42e14"/>
+      <stop offset="100%" stop-color="#f05c0a"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="100%" r="90%">
+      <stop offset="0%"   stop-color="#ff9820" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#ff6010" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="box">
+      <rect width="32" height="32" rx="7"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#box)">
+    <!-- sky gradient -->
+    <rect width="32" height="32" fill="url(#sky)"/>
+
+    <!-- sun glow behind everything -->
+    <ellipse cx="16" cy="25" rx="16" ry="10" fill="url(#glow)"/>
+
+    <!-- rays: centre top -->
+    <line x1="16" y1="25" x2="16"  y2="2"  stroke="#ffe060" stroke-width="2"   stroke-linecap="round" opacity="0.8"/>
+    <!-- rays: upper diagonals -->
+    <line x1="16" y1="25" x2="4"   y2="10" stroke="#ffe060" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+    <line x1="16" y1="25" x2="28"  y2="10" stroke="#ffe060" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+    <!-- rays: lower diagonals -->
+    <line x1="16" y1="25" x2="0"   y2="18" stroke="#ffe060" stroke-width="1"   stroke-linecap="round" opacity="0.4"/>
+    <line x1="16" y1="25" x2="32"  y2="18" stroke="#ffe060" stroke-width="1"   stroke-linecap="round" opacity="0.4"/>
+    <!-- ray: horizontal hints -->
+    <line x1="16" y1="25" x2="0"   y2="25" stroke="#ffe060" stroke-width="0.8" stroke-linecap="round" opacity="0.25"/>
+    <line x1="16" y1="25" x2="32"  y2="25" stroke="#ffe060" stroke-width="0.8" stroke-linecap="round" opacity="0.25"/>
+
+    <!-- sun disc -->
+    <circle cx="16" cy="25" r="9"  fill="#ffe040"/>
+    <!-- sun bright core -->
+    <circle cx="16" cy="25" r="4.5" fill="#fff8c0"/>
+
+    <!-- ground — cuts sun in half at horizon -->
+    <rect x="0" y="25" width="32" height="7" fill="#0f0401"/>
+
+    <!-- horizon line glow -->
+    <rect x="0" y="23.5" width="32" height="2.5" fill="#ff6c10" opacity="0.85"/>
+  </g>
+</svg>
