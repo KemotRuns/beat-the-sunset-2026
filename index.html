@@ -815,7 +815,7 @@
       footer { padding: 2.5rem 1.2rem 1.5rem; }
       .gallery-mosaic { grid-template-columns: 1fr; }
       .gm:nth-child(n) { height: 200px !important; }
-      .lang-toggle { display: none; }
+      .lang-btn { padding: 0.3rem 0.75rem; font-size: 0.72rem; }
     }
   </style>
 </head>
@@ -855,10 +855,6 @@
     <a href="#faq" data-i18n="nav_faq">常見問題</a>
     <a href="#pricing" class="mobile-cta" data-i18n="nav_cta">報名即將開放</a>
   </nav>
-  <div class="mobile-lang-row">
-    <button class="mobile-lang-btn active" data-lang="zh">中文</button>
-    <button class="mobile-lang-btn" data-lang="en">EN</button>
-  </div>
 </div>
 
 <!-- ══ HERO ══ -->
@@ -1501,7 +1497,7 @@
       if (L[key] !== undefined) el.innerHTML = L[key];
     });
 
-    document.querySelectorAll('.lang-btn, .mobile-lang-btn').forEach(btn => {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.lang === lang);
     });
 
