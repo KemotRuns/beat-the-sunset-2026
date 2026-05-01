@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>跑過夕陽 2026 — 與時間競速</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:  oklch(0.63 0.22 42);
+      --deep-orange: oklch(0.53 0.22 34);
+      --coral:   oklch(0.57 0.23 24);
+      --gold:    oklch(0.83 0.17 82);
+      --yellow:  oklch(0.90 0.17 95);
+      --purple:  oklch(0.40 0.19 295);
+      --sky:     oklch(0.56 0.17 226);
+      --dark:    oklch(0.10 0.025 28);
+      --dark2:   oklch(0.15 0.03 28);
+      --cream:   oklch(0.97 0.016 72);
+      --white:   #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ══ NAV ══ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+      padding: 1rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.4s, box-shadow 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(12,7,4,0.92);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 2px 30px rgba(0,0,0,0.4);
+    }
+    .nav-logo img { height: 38px; filter: invert(1); }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.75); text-decoration: none;
+      font-weight: 800; font-size: 0.72rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: white; }
+    .nav-cta {
+      background: var(--orange) !important;
+      color: white !important;
+      padding: 0.5rem 1.3rem;
+      border-radius: 2rem;
+      opacity: 1 !important;
+    }
+    .nav-cta:hover { background: var(--deep-orange) !important; }
+
+    /* ══ LANG TOGGLE ══ */
+    .lang-toggle {
+      display: flex; align-items: center;
+      background: rgba(255,255,255,0.12);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      border-radius: 2rem; overflow: hidden;
+      flex-shrink: 0;
+    }
+    .lang-btn {
+      padding: 0.38rem 1rem;
+      font-family: 'Nunito', 'PingFang TC', sans-serif;
+      font-size: 0.78rem; font-weight: 900;
+      letter-spacing: 0.04em;
+      cursor: pointer; border: none; background: none;
+      color: rgba(255,255,255,0.55);
+      transition: all 0.2s; white-space: nowrap;
+      line-height: 1;
+    }
+    .lang-btn.active {
+      background: white; color: var(--dark);
+      border-radius: 2rem; margin: 2px;
+    }
+    .mobile-lang-row {
+      display: flex; gap: 2rem; margin-top: 2.5rem;
+      padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);
+      justify-content: center;
+    }
+    .mobile-lang-btn {
+      font-family: 'Bebas Neue', 'PingFang TC', sans-serif;
+      font-size: 2.2rem; letter-spacing: 0.08em;
+      cursor: pointer; border: none; background: none;
+      color: rgba(255,255,255,0.28); padding: 0;
+      transition: color 0.2s;
+    }
+    .mobile-lang-btn.active { color: white; }
+
+    /* ══ HERO ══ */
+    #hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('assets/bts-start.jpg');
+      background-size: cover; background-position: center 30%;
+      filter: brightness(0.62) saturate(1.1);
+    }
+
+    .hero-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(8,4,2,0.15) 0%,
+        rgba(255,180,40,0.08) 20%,
+        transparent 45%,
+        rgba(180,60,5,0.3) 78%,
+        rgba(8,4,2,0.88) 100%
+      );
+    }
+
+    .hero-sun {
+      position: absolute;
+      width: 520px; height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,230,120,0.55) 0%, rgba(255,150,30,0.28) 40%, transparent 68%);
+      top: 6%; left: 50%; transform: translateX(-50%);
+      animation: sunpulse 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes sunpulse {
+      0%,100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+      50%      { opacity: 1;   transform: translateX(-50%) scale(1.12); }
+    }
+
+    .hero-content {
+      position: relative; z-index: 5;
+      text-align: center; color: white;
+      padding: 0 1.5rem;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0;
+    }
+
+    .hero-logo-wrap {
+      margin-top: 5rem;
+      margin-bottom: 2rem;
+      padding: 2.8rem 4rem;
+      background: radial-gradient(ellipse at center,
+        rgba(255,248,220,0.82) 15%,
+        rgba(255,210,90,0.45) 50%,
+        transparent 72%);
+      animation: floatlogo 5s ease-in-out infinite;
+    }
+    .hero-logo {
+      width: clamp(220px, 38vw, 420px);
+      display: block;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.25));
+    }
+    @keyframes floatlogo {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+
+    .hero-info {
+      display: flex; gap: 0.7rem; flex-wrap: wrap; justify-content: center;
+      margin-bottom: 2rem;
+    }
+    .hero-info-card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(255,255,255,0.2);
+      border-radius: 16px;
+      padding: 0.85rem 1.5rem;
+      display: flex; flex-direction: column; align-items: center; gap: 0.25rem;
+    }
+    .hero-info-label {
+      font-size: 0.58rem; font-weight: 900;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold); opacity: 0.85;
+    }
+    .hero-info-value {
+      font-family: 'Bebas Neue', 'PingFang TC', sans-serif;
+      font-size: clamp(1.3rem, 2.8vw, 1.75rem);
+      line-height: 1; color: white; letter-spacing: 0.04em;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.2vw, 1.25rem);
+      font-weight: 700;
+      opacity: 0.85;
+      letter-spacing: 0.02em;
+      margin-bottom: 2.4rem;
+      max-width: 520px;
+      line-height: 1.55;
+      font-style: italic;
+    }
+
+    /* Countdown */
+    .countdown {
+      display: flex; align-items: flex-start; gap: 0.6rem;
+      margin-bottom: 2.8rem;
+    }
+    .cd-block { display: flex; flex-direction: column; align-items: center; }
+    .cd-n {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.2rem);
+      line-height: 1;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(12px);
+      border: 1.5px solid rgba(255,255,255,0.18);
+      border-radius: 12px;
+      padding: 0.35em 0.5em;
+      min-width: 2.2em; text-align: center;
+      letter-spacing: 0.03em;
+      color: white;
+    }
+    .cd-l {
+      font-size: 0.58rem; font-weight: 900;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      opacity: 0.5; margin-top: 0.4rem; color: white;
+    }
+    .cd-dot {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.5rem, 6vw, 4.2rem);
+      opacity: 0.3; padding-top: 0.2em; color: white;
+    }
+
+    .hero-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.9rem 2.2rem; border-radius: 3rem;
+      font-family: 'Nunito', 'PingFang TC', sans-serif;
+      font-weight: 900; font-size: 1rem;
+      letter-spacing: 0.03em; text-decoration: none;
+      cursor: pointer; border: none;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.3); }
+    .btn-primary { background: var(--orange); color: white; }
+    .btn-primary:hover { background: var(--deep-orange); }
+    .btn-ghost  {
+      background: transparent; color: white;
+      border: 2px solid rgba(255,255,255,0.45);
+    }
+    .btn-ghost:hover { border-color: white; background: rgba(255,255,255,0.08); }
+    .btn-dark   { background: var(--dark); color: white; }
+    .btn-soon   {
+      background: rgba(255,255,255,0.15) !important;
+      color: rgba(255,255,255,0.55) !important;
+      border: 1.5px dashed rgba(255,255,255,0.35) !important;
+      cursor: default !important; pointer-events: none;
+    }
+    .price-card.featured .btn-soon {
+      background: rgba(0,0,0,0.07) !important;
+      color: rgba(0,0,0,0.35) !important;
+      border: 1.5px dashed rgba(0,0,0,0.2) !important;
+    }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.2rem; left: 50%; transform: translateX(-50%);
+      z-index: 5; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.6rem; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .hero-scroll-arrow {
+      width: 18px; height: 18px;
+      border-right: 2px solid rgba(255,255,255,0.35);
+      border-bottom: 2px solid rgba(255,255,255,0.35);
+      transform: rotate(45deg);
+      animation: bouncearrow 1.8s ease-in-out infinite;
+    }
+    @keyframes bouncearrow {
+      0%,100% { transform: rotate(45deg) translate(0,0); opacity: 0.3; }
+      50%      { transform: rotate(45deg) translate(4px,4px); opacity: 0.9; }
+    }
+
+    /* ══ SHARED ══ */
+    .section { padding: 6rem 2rem; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .eyebrow {
+      display: block;
+      font-size: 0.72rem; font-weight: 900;
+      letter-spacing: 0.38em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 0.8rem;
+    }
+    .eyebrow.light { color: var(--gold); }
+    .title {
+      font-family: 'Bebas Neue', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 0.92; letter-spacing: 0.02em;
+      margin-bottom: 1.4rem;
+    }
+    .title.white { color: white; }
+
+    /* ══ ABOUT ══ */
+    #about { background: var(--dark); color: white; }
+
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    }
+
+    .about-quote {
+      font-family: 'Bebas Neue', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+      font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+      color: var(--gold); line-height: 1.08;
+      margin-bottom: 1.8rem;
+    }
+    .about-body p {
+      font-size: 1.05rem; line-height: 1.78; opacity: 0.72; margin-bottom: 1rem;
+    }
+    .about-body p strong { color: white; opacity: 1; }
+
+    .stats-row {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+      margin-top: 0.5rem;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 16px; padding: 1.4rem 1.3rem;
+    }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem; color: var(--orange); line-height: 1;
+    }
+    .stat-num.g { color: var(--gold); }
+    .stat-lbl {
+      font-size: 0.75rem; font-weight: 800;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      opacity: 0.45; margin-top: 0.25rem;
+    }
+
+    .about-img-wrap {
+      position: relative; border-radius: 24px; overflow: hidden;
+      aspect-ratio: 3/4;
+    }
+    .about-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: opacity 0.7s ease;
+    }
+    .about-img-badge {
+      position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem;
+      background: rgba(12,7,4,0.82); backdrop-filter: blur(10px);
+      border-radius: 14px; padding: 1rem 1.2rem;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: white;
+    }
+    .about-img-badge strong {
+      font-size: 0.8rem; font-weight: 900;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--gold); display: block; margin-bottom: 0.25rem;
+    }
+    .about-img-badge p { font-size: 0.85rem; opacity: 0.7; line-height: 1.45; }
+
+    /* ══ VIDEO STRIP ══ */
+    #video {
+      background: var(--dark2);
+      padding: 4rem 2rem;
+    }
+    .video-inner {
+      max-width: 900px; margin: 0 auto; text-align: center;
+    }
+    .video-inner .eyebrow { margin-bottom: 0.6rem; }
+    .video-inner h2 {
+      font-family: 'Bebas Neue', 'PingFang TC', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      color: white; line-height: 1; margin-bottom: 2rem;
+    }
+    .video-frame {
+      position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+      border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+    .video-frame iframe {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      border: none; border-radius: 20px;
+    }
+
+    /* ══ HOW IT WORKS ══ */
+    #how { background: var(--cream); }
+
+    .timeline-bar {
+      height: 8px; border-radius: 4px;
+      background: linear-gradient(to right, var(--sky), var(--gold), var(--orange), var(--coral), var(--purple));
+      margin: 2.5rem 0;
+      position: relative;
+    }
+    .timeline-bar::before { content:'中午12:00'; position:absolute; left:0; top:14px; font-size:0.65rem; font-weight:900; letter-spacing:0.08em; color:var(--sky); }
+    .timeline-bar::after  { content:'日落'; position:absolute; right:0; top:14px; font-size:0.65rem; font-weight:900; letter-spacing:0.08em; color:var(--purple); }
+    html[lang="en"] .timeline-bar::before { content:'12:00 PM'; }
+    html[lang="en"] .timeline-bar::after  { content:'SUNSET'; }
+
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.4rem;
+      margin-top: 3rem;
+    }
+    .step {
+      background: white; border-radius: 20px;
+      padding: 1.8rem 1.5rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      position: relative; overflow: hidden;
+    }
+    .step::before {
+      content: attr(data-n);
+      position: absolute; right: -0.1rem; top: -0.6rem;
+      font-family: 'Bebas Neue', sans-serif; font-size: 6rem;
+      opacity: 0.05; line-height: 1; color: var(--dark);
+      pointer-events: none;
+    }
+    .step-dot {
+      width: 48px; height: 48px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 1rem;
+    }
+    .step:nth-child(1) .step-dot { background: oklch(0.90 0.09 228); }
+    .step:nth-child(2) .step-dot { background: oklch(0.94 0.10 82);  }
+    .step:nth-child(3) .step-dot { background: oklch(0.92 0.10 44);  }
+    .step:nth-child(4) .step-dot { background: oklch(0.90 0.10 295); }
+    .step-time {
+      font-family: 'Bebas Neue', 'PingFang TC', sans-serif; font-size: 1.3rem;
+      line-height: 1; margin-bottom: 0.3rem;
+      color: var(--orange);
+    }
+    .step:nth-child(1) .step-time { color: var(--sky); }
+    .step:nth-child(2) .step-time { color: oklch(0.65 0.15 78); }
+    .step:nth-child(4) .step-time { color: var(--purple); }
+    .step-ttl { font-weight: 900; font-size: 1.05rem; margin-bottom: 0.5rem; }
+    .step-txt { font-size: 0.87rem; line-height: 1.6; opacity: 0.6; }
+
+    .pillars {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      margin-top: 4rem;
+    }
+    .pillar {
+      background: var(--dark); color: white;
+      border-radius: 22px; padding: 2.2rem 2rem;
+      position: relative; overflow: hidden;
+    }
+    .pillar::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+    }
+    .pillar:nth-child(1)::after { background: var(--sky); }
+    .pillar:nth-child(2)::after { background: var(--gold); }
+    .pillar:nth-child(3)::after { background: var(--coral); }
+    .pillar-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem; line-height: 0.9;
+      color: var(--orange); margin-bottom: 0.8rem;
+    }
+    .pillar:nth-child(2) .pillar-num { color: var(--gold); }
+    .pillar:nth-child(3) .pillar-num { color: var(--coral); }
+    .pillar h4 { font-size: 1.05rem; font-weight: 900; margin-bottom: 0.5rem; }
+    .pillar p  { font-size: 0.87rem; line-height: 1.65; opacity: 0.6; }
+
+    /* ══ COURSE ══ */
+    #course { background: var(--dark); color: white; padding: 6rem 2rem; }
+    .course-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .course-img { border-radius: 20px; overflow: hidden; }
+    .course-img img { width: 100%; height: 100%; object-fit: cover; display: block; aspect-ratio: 4/3; }
+    .course-details { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1.5rem; }
+    .course-item {
+      display: flex; gap: 1rem; align-items: flex-start;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px; padding: 1.1rem 1.2rem;
+    }
+    .course-item-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--orange); display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .course-item h5 { font-size: 0.85rem; font-weight: 900; margin-bottom: 0.2rem; }
+    .course-item p  { font-size: 0.82rem; opacity: 0.55; line-height: 1.5; }
+    .course-links { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.4rem; }
+    .course-link {
+      display: inline-flex; align-items: center; gap: 0.55rem;
+      padding: 0.65rem 1.2rem; border-radius: 2rem;
+      text-decoration: none; font-weight: 900; font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .course-link:hover { transform: translateY(-2px); opacity: 0.88; }
+    .course-link.strava  { background: #FC4C02; color: white; }
+    .course-link.maps    { background: rgba(255,255,255,0.12); color: white; border: 1.5px solid rgba(255,255,255,0.25); }
+    .course-link.gpx     { background: rgba(255,255,255,0.08); color: white; border: 1.5px solid rgba(255,255,255,0.18); }
+    .location-link { color: inherit; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.35); transition: border-color 0.2s; }
+    .location-link:hover { border-bottom-color: rgba(255,255,255,0.9); }
+
+    /* ══ VOLUNTEER ══ */
+    #volunteer { background: var(--dark); color: white; padding: 6rem 2rem; }
+    .volunteer-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start;
+    }
+    .volunteer-intro p {
+      font-size: 1.05rem; line-height: 1.78; opacity: 0.7; margin-bottom: 1.4rem;
+    }
+    .volunteer-cards { display: flex; flex-direction: column; gap: 1.2rem; }
+    .volunteer-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 20px; padding: 1.6rem 1.8rem;
+    }
+    .volunteer-card h4 {
+      font-size: 0.72rem; font-weight: 900; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .volunteer-card ul { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .volunteer-card li {
+      font-size: 0.9rem; opacity: 0.72; line-height: 1.5;
+      display: flex; align-items: flex-start; gap: 0.6rem;
+    }
+    .volunteer-card li::before { content: '—'; color: var(--orange); opacity: 1; flex-shrink: 0; }
+    .volunteer-note {
+      margin-top: 1rem; font-size: 0.82rem; opacity: 0.45;
+      font-style: italic; line-height: 1.5;
+    }
+
+    /* ══ PRICING ══ */
+    #pricing {
+      background: linear-gradient(145deg,
+        oklch(0.62 0.22 38) 0%,
+        oklch(0.50 0.22 34) 45%,
+        oklch(0.38 0.18 290) 100%
+      );
+      color: white;
+      padding: 6rem 2rem;
+    }
+
+    .pricing-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+      margin-top: 3rem; max-width: 900px;
+    }
+    .price-card {
+      background: rgba(255,255,255,0.13);
+      backdrop-filter: blur(14px);
+      border: 1.5px solid rgba(255,255,255,0.22);
+      border-radius: 26px; padding: 2.5rem 2.2rem;
+      position: relative; overflow: hidden;
+      transition: transform 0.25s;
+    }
+    .price-card:hover { transform: translateY(-5px); }
+    .price-card.featured {
+      background: rgba(255,255,255,0.97);
+      color: var(--dark); border-color: white;
+    }
+    .price-card.featured .price-check::before { color: var(--orange); }
+
+    .price-pill {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.3rem 0.9rem; border-radius: 2rem;
+      font-size: 0.68rem; font-weight: 900;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .price-card.featured .price-pill { background: var(--gold); color: var(--dark); }
+    .price-card:not(.featured) .price-pill { background: rgba(255,255,255,0.2); color: white; }
+
+    .price-name {
+      font-family: 'Bebas Neue', 'PingFang TC', sans-serif;
+      font-size: 2rem; line-height: 1; margin-bottom: 0.3rem;
+    }
+    .price-big {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 5.5rem; line-height: 0.9;
+      letter-spacing: -0.01em; margin-bottom: 0.2rem;
+    }
+    .price-curr { font-size: 1.4rem; vertical-align: top; margin-top: 1rem; display: inline-block; }
+    .price-note { font-size: 0.78rem; opacity: 0.55; margin-bottom: 2rem; }
+    .price-list { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 2rem; }
+    .price-list li { display: flex; align-items: center; gap: 0.55rem; font-size: 0.9rem; }
+    .price-check::before { content: '✓'; font-weight: 900; color: rgba(255,255,255,0.75); }
+    .price-card.featured .price-list li .price-check::before { color: var(--orange); }
+    .soon-note {
+      margin-top: 0.65rem; text-align: center;
+      font-size: 0.82rem; font-weight: 900;
+      letter-spacing: 0.05em; color: var(--orange);
+    }
+
+    .ribbon {
+      position: absolute; top: 1.2rem; right: -2.5rem;
+      background: var(--coral); color: white;
+      font-size: 0.62rem; font-weight: 900;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      padding: 0.28rem 3rem; transform: rotate(18deg);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+    }
+
+    .btn-block { display: block; text-align: center; }
+
+    /* ══ GALLERY ══ */
+    #gallery { background: var(--dark2); padding: 6rem 0 0; }
+    #gallery .container { padding: 0 2rem; }
+    #gallery .title { color: white; }
+
+    .gallery-mosaic {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: 280px 200px 220px;
+      gap: 6px;
+      margin-top: 3rem;
+    }
+    .gm { overflow: hidden; position: relative; }
+    .gm img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .gm:hover img { transform: scale(1.07); }
+    .gm:nth-child(1)  { grid-column: 1 / 5;   grid-row: 1 / 3; }
+    .gm:nth-child(2)  { grid-column: 5 / 9;   grid-row: 1 / 2; }
+    .gm:nth-child(3)  { grid-column: 9 / 13;  grid-row: 1 / 2; }
+    .gm:nth-child(4)  { grid-column: 5 / 8;   grid-row: 2 / 3; }
+    .gm:nth-child(5)  { grid-column: 8 / 10;  grid-row: 2 / 3; }
+    .gm:nth-child(6)  { grid-column: 10 / 13; grid-row: 2 / 3; }
+    .gm:nth-child(7)  { grid-column: 1 / 4;   grid-row: 3 / 4; }
+    .gm:nth-child(8)  { grid-column: 4 / 7;   grid-row: 3 / 4; }
+    .gm:nth-child(9)  { grid-column: 7 / 10;  grid-row: 3 / 4; }
+    .gm:nth-child(10) { grid-column: 10 / 13; grid-row: 3 / 4; }
+
+    .gallery-caption {
+      background: var(--dark2); color: white;
+      text-align: center; padding: 2rem;
+      font-size: 0.85rem; opacity: 0.5; font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+
+    /* ══ FAQ ══ */
+    #faq { background: var(--cream); padding: 6rem 2rem; }
+    .faq-stack { max-width: 780px; margin-top: 3rem; display: flex; flex-direction: column; gap: 0.8rem; }
+    .faq-card {
+      background: white; border-radius: 18px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+    .faq-btn {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      padding: 1.3rem 1.6rem; gap: 1rem;
+      background: none; border: none; cursor: pointer;
+      font-family: 'Nunito', 'PingFang TC', sans-serif; font-weight: 800;
+      font-size: 1rem; text-align: left; color: var(--dark);
+    }
+    .faq-ico {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--orange); color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+      transition: transform 0.3s;
+    }
+    .faq-card.open .faq-ico { transform: rotate(45deg); }
+    .faq-body {
+      max-height: 0; overflow: hidden; padding: 0 1.6rem;
+      font-size: 0.95rem; line-height: 1.72; color: oklch(0.38 0.03 30);
+      transition: max-height 0.32s ease, padding 0.32s ease;
+    }
+    .faq-card.open .faq-body { max-height: 400px; padding-bottom: 1.4rem; }
+
+    /* ══ REGISTER CTA ══ */
+    #register {
+      background: var(--orange);
+      padding: 6rem 2rem;
+      text-align: center; color: white;
+      position: relative; overflow: hidden;
+    }
+    #register::before {
+      content: 'GO';
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%,-55%);
+      font-family: 'Bebas Neue', sans-serif; font-size: 40vw; line-height: 1;
+      color: rgba(255,255,255,0.06); pointer-events: none; white-space: nowrap;
+    }
+    .register-content { position: relative; z-index: 2; }
+    .register-content .title { color: white; font-size: clamp(4rem, 10vw, 8.5rem); }
+    .register-sub {
+      font-size: clamp(1rem, 2vw, 1.3rem); opacity: 0.85;
+      max-width: 420px; margin: 0 auto 2.5rem; line-height: 1.6;
+    }
+    .register-note { margin-top: 1.4rem; font-size: 0.82rem; opacity: 0.6; font-weight: 700; }
+
+    /* ══ FOOTER ══ */
+    footer {
+      background: oklch(0.94 0.018 72); color: var(--dark);
+      padding: 3.5rem 3rem 2rem;
+    }
+    .footer-top {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      flex-wrap: wrap; gap: 2.5rem; max-width: 1100px; margin: 0 auto;
+      padding-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    .footer-brand { display: flex; flex-direction: column; gap: 0.8rem; }
+    .footer-logo { display: inline-block; }
+    .footer-logo img { height: 56px; display: block; }
+    .footer-tagline { font-size: 0.8rem; opacity: 0.5; font-weight: 700; max-width: 220px; line-height: 1.55; }
+    .footer-cols { display: flex; gap: 4rem; flex-wrap: wrap; }
+    .footer-col h6 {
+      font-size: 0.68rem; font-weight: 900; letter-spacing: 0.2em;
+      text-transform: uppercase; opacity: 0.35; margin-bottom: 1rem;
+      color: var(--dark);
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-col a {
+      color: oklch(0.35 0.04 28); text-decoration: none;
+      font-size: 0.88rem; font-weight: 700;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--orange); }
+    .footer-col .footer-contact-text {
+      color: oklch(0.35 0.04 28);
+      font-size: 0.88rem; font-weight: 700;
+      line-height: 1.6;
+    }
+    .footer-bottom {
+      max-width: 1100px; margin: 1.5rem auto 0;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy { font-size: 0.72rem; opacity: 0.35; }
+    .footer-runivore { display: flex; align-items: center; gap: 0.6rem; }
+    .footer-runivore span { font-size: 0.72rem; opacity: 0.45; font-weight: 700; }
+    .footer-runivore img { height: 22px; opacity: 0.55; }
+
+    /* ══ HAMBURGER ══ */
+    .nav-hamburger {
+      display: none; flex-direction: column; justify-content: center; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 0.5rem;
+      z-index: 600; position: relative;
+    }
+    .nav-hamburger span {
+      display: block; width: 26px; height: 2.5px;
+      background: white; border-radius: 2px;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    /* ══ MOBILE MENU OVERLAY ══ */
+    .mobile-overlay {
+      display: none;
+      position: fixed; inset: 0; z-index: 550;
+      background: #000;
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 0;
+    }
+    .mobile-overlay.open { display: flex; }
+    .mobile-close {
+      position: absolute; top: 1.2rem; right: 1.4rem;
+      background: none; border: none; cursor: pointer;
+      color: white; font-size: 2rem; line-height: 1;
+      padding: 0.5rem; opacity: 0.7; transition: opacity 0.2s;
+    }
+    .mobile-close:hover { opacity: 1; }
+    .mobile-nav { display: flex; flex-direction: column; align-items: center; gap: 0; width: 100%; }
+    .mobile-nav a {
+      display: block; width: 100%; text-align: center;
+      color: white; text-decoration: none;
+      font-family: 'Bebas Neue', 'PingFang TC', sans-serif;
+      font-size: 3rem; letter-spacing: 0.08em;
+      padding: 0.6rem 2rem;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      transition: color 0.2s, background 0.2s;
+    }
+    .mobile-nav a:first-child { border-top: 1px solid rgba(255,255,255,0.07); }
+    .mobile-nav a:hover { color: var(--gold); background: rgba(255,255,255,0.04); }
+    .mobile-nav a.mobile-cta {
+      margin-top: 1.8rem; border: none;
+      background: var(--orange); color: white;
+      border-radius: 3rem; width: auto;
+      padding: 0.9rem 3rem; font-size: 2rem;
+    }
+    .mobile-nav a.mobile-cta:hover { background: var(--deep-orange); }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 960px) {
+      nav { padding: 1rem 1.5rem; justify-content: flex-end; }
+      nav.scrolled { padding: 0.75rem 1.5rem; }
+      .nav-hamburger { display: flex; }
+      .nav-links { display: none !important; }
+
+      .about-grid, .course-grid, .volunteer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+      .pillars { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; max-width: 500px; }
+      .gallery-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+      .gm:nth-child(n) { grid-column: span 1 !important; grid-row: span 1 !important; height: 200px; }
+      .footer-cols { gap: 2rem; }
+      .footer-top { flex-direction: column; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-logo-wrap { margin-top: 4rem; padding: 2rem 2.5rem; }
+      .hero-info { gap: 0.5rem; }
+      .hero-info-card { padding: 0.7rem 1rem; }
+      .hero-info-value { font-size: 1.2rem; }
+      .hero-sub { font-size: 0.95rem; margin-bottom: 1.6rem; }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .btn { width: 100%; max-width: 320px; text-align: center; }
+      .countdown { gap: 0.35rem; }
+      .cd-dot { display: none; }
+      .cd-n { font-size: 2.2rem; min-width: 2em; padding: 0.3em 0.4em; }
+
+      .section { padding: 4rem 1.2rem; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .title { font-size: 2.8rem; }
+      #course { padding: 4rem 1.2rem; }
+      #pricing { padding: 4rem 1.2rem; }
+      #faq { padding: 4rem 1.2rem; }
+      #register { padding: 4rem 1.2rem; }
+      footer { padding: 2.5rem 1.2rem 1.5rem; }
+      .gallery-mosaic { grid-template-columns: 1fr; }
+      .gm:nth-child(n) { height: 200px !important; }
+      .lang-toggle { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav id="nav">
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#about" data-i18n="nav_about">關於比賽</a></li>
+    <li><a href="#how" data-i18n="nav_how">活動方式</a></li>
+    <li><a href="#course" data-i18n="nav_course">賽道</a></li>
+    <li><a href="#pricing" data-i18n="nav_pricing">報名</a></li>
+    <li><a href="#gallery" data-i18n="nav_gallery">照片</a></li>
+    <li><a href="#volunteer" data-i18n="nav_volunteer">志工</a></li>
+    <li><a href="#faq" data-i18n="nav_faq">常見問題</a></li>
+    <li><a href="#pricing" class="nav-cta" data-i18n="nav_cta">報名即將開放</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn active" data-lang="zh">中文</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ══ MOBILE MENU ══ -->
+<div class="mobile-overlay" id="mobile-overlay">
+  <button class="mobile-close" id="mobile-close">✕</button>
+  <nav class="mobile-nav" id="mobile-nav">
+    <a href="#about" data-i18n="nav_about">關於比賽</a>
+    <a href="#how" data-i18n="nav_how">活動方式</a>
+    <a href="#course" data-i18n="nav_course">賽道</a>
+    <a href="#pricing" data-i18n="nav_pricing">報名</a>
+    <a href="#gallery" data-i18n="nav_gallery">照片</a>
+    <a href="#volunteer" data-i18n="nav_volunteer">志工</a>
+    <a href="#faq" data-i18n="nav_faq">常見問題</a>
+    <a href="#pricing" class="mobile-cta" data-i18n="nav_cta">報名即將開放</a>
+  </nav>
+  <div class="mobile-lang-row">
+    <button class="mobile-lang-btn active" data-lang="zh">中文</button>
+    <button class="mobile-lang-btn" data-lang="en">EN</button>
+  </div>
+</div>
+
+<!-- ══ HERO ══ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-gradient"></div>
+  <div class="hero-sun"></div>
+
+  <div class="hero-content">
+    <div class="hero-logo-wrap">
+      <img src="assets/bts-logo-colors.png" alt="Beat the Sunset" class="hero-logo">
+    </div>
+    <div class="hero-info">
+      <div class="hero-info-card">
+        <span class="hero-info-label" data-i18n="hero_date_label">日期</span>
+        <span class="hero-info-value" data-i18n="hero_date_val">11月7日 星期六</span>
+      </div>
+      <div class="hero-info-card">
+        <span class="hero-info-label" data-i18n="hero_time_label">時間</span>
+        <span class="hero-info-value" data-i18n="hero_time_val">中午12:00 至 日落</span>
+      </div>
+      <div class="hero-info-card">
+        <span class="hero-info-label" data-i18n="hero_venue_label">地點</span>
+        <a href="https://maps.app.goo.gl/ssHdq1iNLrmkngn88" target="_blank" rel="noopener" class="hero-info-value location-link" data-i18n="hero_venue_val">妙覺禪寺｜新北市土城區</a>
+      </div>
+    </div>
+    <p class="hero-sub" data-i18n="hero_quote">「可能是全世界最有趣的比賽。」</p>
+
+    <div class="countdown" id="countdown">
+      <div class="cd-block"><span class="cd-n" id="cd-d">---</span><span class="cd-l" data-i18n="cd_days">天</span></div>
+      <div class="cd-dot">:</div>
+      <div class="cd-block"><span class="cd-n" id="cd-h">--</span><span class="cd-l" data-i18n="cd_hrs">時</span></div>
+      <div class="cd-dot">:</div>
+      <div class="cd-block"><span class="cd-n" id="cd-m">--</span><span class="cd-l" data-i18n="cd_min">分</span></div>
+      <div class="cd-dot">:</div>
+      <div class="cd-block"><span class="cd-n" id="cd-s">--</span><span class="cd-l" data-i18n="cd_sec">秒</span></div>
+    </div>
+
+    <div class="hero-btns">
+      <a href="#pricing" class="btn btn-primary btn-soon" data-i18n="hero_btn_register">報名即將開放</a>
+      <a href="#video"   class="btn btn-ghost" data-i18n="hero_btn_video">觀看比賽影片</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span data-i18n="hero_scroll">向下滑動</span>
+    <div class="hero-scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about" class="section">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <span class="eyebrow light" data-i18n="about_eyebrow">關於比賽</span>
+        <p class="about-quote" data-i18n="about_quote">「一場獨一無二、與夕陽競賽的活動。」</p>
+        <div class="about-body">
+          <p data-i18n-html="about_p1_html">跑過夕陽是一場在台灣舉辦的獨一無二活動，您與隊友一起<strong>和夕陽賽跑</strong>，從中午12點開始，直到日落結束！</p>
+          <p data-i18n-html="about_p2_html">沒有固定的終點距離。目標很簡單：在太陽消失之前，跑完盡可能多的 <strong>2.9 公里單圈</strong>。圈數最多的隊伍或個人獲勝。</p>
+          <p data-i18n-html="about_p3_html">一般跑者完成每圈約需 25 至 30 分鐘——讓隊友有時間休息、補充體力、互相加油。現場氣氛<strong>熱鬧歡騰，與台灣其他活動截然不同</strong>。</p>
+          <p data-i18n-html="about_p4_html">無論單人挑戰或組隊參賽，跑過夕陽歡迎各程度跑者。每位完成至少一圈的跑者都能獲得完賽禮物。</p>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-num">5+</div>
+            <div class="stat-lbl" data-i18n="stat1_lbl">小時比賽</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num g">2.9</div>
+            <div class="stat-lbl" data-i18n="stat2_lbl">公里每圈</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num">3</div>
+            <div class="stat-lbl" data-i18n="stat3_lbl">參賽組別</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-num g">1</div>
+            <div class="stat-lbl" data-i18n="stat4_lbl">顆夕陽</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-img-wrap">
+        <img id="about-img" src="assets/runners-bts.jpg" alt="Runners at Beat the Sunset">
+        <div class="about-img-badge">
+          <strong data-i18n="about_badge_title">歡迎各程度跑者</strong>
+          <p data-i18n="about_badge_text">初學者、週末跑者與競技跑者都能在同一條賽道上參賽，共同欣賞新北市壯麗的夕陽美景。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VIDEO ══ -->
+<section id="video">
+  <div class="video-inner">
+    <span class="eyebrow" data-i18n="video_eyebrow">親眼見識才能相信</span>
+    <h2 data-i18n="video_title">感受比賽氛圍</h2>
+    <div class="video-frame">
+      <iframe
+        src="https://www.youtube.com/embed/-veFTyDxQHg"
+        title="Beat the Sunset Race Video"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HOW IT WORKS ══ -->
+<section id="how" class="section">
+  <div class="container">
+    <span class="eyebrow" data-i18n="how_eyebrow">活動當天</span>
+    <h2 class="title" data-i18n="how_title">活動方式</h2>
+    <p style="max-width:580px; opacity:0.65; font-size:1.05rem; line-height:1.72;" data-i18n="how_sub">概念簡單，樂趣無窮。中午12點到場，盡你所能跑更多2.9公里的單圈，在太陽下山前完成最後一圈。圈數最多者獲勝。</p>
+
+    <div class="timeline-bar"></div>
+
+    <div class="steps-grid">
+      <div class="step" data-n="01">
+        <div class="step-dot">🌤</div>
+        <div class="step-time" data-i18n="step1_time">中午12:00</div>
+        <div class="step-ttl" data-i18n="step1_ttl">比賽開始</div>
+        <div class="step-txt" data-i18n="step1_txt">正午一聲槍響，比賽正式開始！選手包從上午10:00起在妙覺禪寺開放領取，做好熱身，準備迎接這場最有趣的跑步體驗。</div>
+      </div>
+      <div class="step" data-n="02">
+        <div class="step-dot">🔁</div>
+        <div class="step-time" data-i18n="step2_time">2.9公里單圈</div>
+        <div class="step-ttl" data-i18n="step2_ttl">跑步與接力</div>
+        <div class="step-txt" data-i18n="step2_txt">每圈穿越自然地形，全長2.9公里——平均25至30分鐘完成。雙人組與超級四人組在終點線完成接力棒交接；單人組則直接出發跑下一圈。</div>
+      </div>
+      <div class="step" data-n="03">
+        <div class="step-dot">🌅</div>
+        <div class="step-time" data-i18n="step3_time">午後時光</div>
+        <div class="step-ttl" data-i18n="step3_ttl">天空燃起金光</div>
+        <div class="step-txt" data-i18n="step3_txt">黃金時刻讓賽道煥然一新。天空染成橙紅，人群歡呼聲更響，每一圈都成為難忘的畫面——這就是比賽升華為回憶的時刻。</div>
+      </div>
+      <div class="step" data-n="04">
+        <div class="step-dot">🏅</div>
+        <div class="step-time" data-i18n="step4_time">下午5:09</div>
+        <div class="step-ttl" data-i18n="step4_ttl">最後出發</div>
+        <div class="step-txt" data-i18n="step4_txt">日落前20分鐘為最後出發時間。只有在5:29 PM前完成的圈數才計入成績。圈數最多且用時最短者為冠軍。</div>
+      </div>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-num">01</div>
+        <h4 data-i18n="pillar1_ttl">末日單匹狼</h4>
+        <p data-i18n="pillar1_txt">就是你對抗夕陽。每一圈都是你自己贏來的。分男子、女子組——適合喜歡從中午獨自挑戰到日落的跑者。</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">02</div>
+        <h4 data-i18n="pillar2_ttl">默契雙人組</h4>
+        <p data-i18n="pillar2_txt">兩名跑者，一根接力棒，最強的默契。輪流上場，互相激勵。分男子、女子、混合雙人組——找到你的搭檔，開始計劃吧。</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">03</div>
+        <h4 data-i18n="pillar3_ttl">超級四人組</h4>
+        <p data-i18n="pillar3_txt">四名跑者，一支傳奇戰隊。無論是衝冠的競速隊伍還是家庭休閒組——這是終極的團體賽格式。分男子、女子、混合四人組。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ COURSE ══ -->
+<section id="course">
+  <div class="container">
+    <div class="course-grid">
+      <div>
+        <span class="eyebrow light" data-i18n="course_eyebrow">賽道</span>
+        <h2 class="title white" data-i18n="course_title">美麗的循環路線</h2>
+        <p style="opacity:0.65; font-size:1.05rem; line-height:1.72; margin-bottom:0.5rem;" data-i18n="course_desc">賽道是一條2.9公里的山野公路混合循環路線，從土城妙覺禪寺出發——穿越自然地形爬坡後回到起點進行接力交接，景色優美，極具挑戰性。</p>
+        <div class="course-details">
+          <div class="course-item">
+            <div class="course-item-icon">📍</div>
+            <div>
+              <h5 data-i18n="loc_label">地點</h5>
+              <p><a href="https://maps.app.goo.gl/ssHdq1iNLrmkngn88" target="_blank" rel="noopener" class="location-link" data-i18n="loc_val">妙覺禪寺，土城，新北，台灣</a></p>
+            </div>
+          </div>
+          <div class="course-item">
+            <div class="course-item-icon">🔁</div>
+            <div>
+              <h5 data-i18n="loop_label">單圈距離</h5>
+              <p data-i18n="loop_val">2.9公里——返回起點進行接力交接</p>
+            </div>
+          </div>
+          <div class="course-item">
+            <div class="course-item-icon">⏱</div>
+            <div>
+              <h5 data-i18n="laptime_label">平均完圈時間</h5>
+              <p data-i18n="laptime_val">一般跑者25至30分鐘——在日落前盡量完成更多圈</p>
+            </div>
+          </div>
+          <div class="course-item">
+            <div class="course-item-icon">🌳</div>
+            <div>
+              <h5 data-i18n="terrain_label">地形</h5>
+              <p data-i18n="terrain_val">山野公路混合，含自然地形爬坡——挑戰性強但各程度皆可參與</p>
+            </div>
+          </div>
+        </div>
+        <div class="course-links">
+          <a class="course-link strava" href="https://www.strava.com/segments/37907303" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.387 17.944l-2.089-4.116h-3.065L15.387 24l5.15-10.172h-3.066m-7.008-5.599l2.836 5.598h4.172L10.463 0l-7 13.828h4.169"/></svg>
+            <span data-i18n="strava_btn">在 Strava 查看</span>
+          </a>
+          <a class="course-link gpx" href="https://drive.google.com/file/d/1A-UM80KUtwDXd7PG2MZs6XX5s1htUuv3/view?usp=sharing" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M5 20h14v-2H5v2zm7-18L5.33 9h3.84v6h5.66V9h3.84L12 2z"/></svg>
+            <span data-i18n="gpx_btn">下載 GPX</span>
+          </a>
+          <a class="course-link maps" href="https://maps.app.goo.gl/ssHdq1iNLrmkngn88" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+            <span data-i18n="maps_btn">查看地圖</span>
+          </a>
+        </div>
+      </div>
+      <div class="course-img">
+        <img src="assets/BTS-course.jpg" alt="Beat the Sunset Course">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PRICING ══ -->
+<section id="pricing">
+  <div class="container">
+    <span class="eyebrow" style="color:var(--gold)" data-i18n="pricing_eyebrow">報名</span>
+    <h2 class="title white" data-i18n="pricing_title">加入賽事</h2>
+    <p style="opacity:0.82; font-size:1.05rem; max-width:460px;" data-i18n="pricing_sub">搶先鎖定名額，別讓太陽先一步。早鳥限額前100名，只需 NT$2,100。</p>
+    <div class="pricing-grid">
+      <!-- Early Bird -->
+      <div class="price-card featured">
+        <div class="ribbon" data-i18n="ribbon_text">限額</div>
+        <div class="price-pill" data-i18n="early_pill">🔥 早鳥優惠 — 前100名</div>
+        <div class="price-name" data-i18n="early_name">早鳥</div>
+        <div class="price-big"><span class="price-curr">NT$</span>2,100</div>
+        <div class="price-note" data-i18n="early_note">限前100名報名 · 額滿即止</div>
+        <ul class="price-list" id="price-list-featured"></ul>
+        <a href="#" class="btn btn-primary btn-block btn-soon" style="font-size:1rem; padding:1rem;" data-i18n="early_cta">立即報名 — 早鳥</a>
+        <p class="soon-note" data-i18n="early_soon_note">⏳ 報名即將開放</p>
+      </div>
+      <!-- Regular -->
+      <div class="price-card">
+        <div class="price-pill" data-i18n="reg_pill">一般報名</div>
+        <div class="price-name" data-i18n="reg_name">一般</div>
+        <div class="price-big"><span class="price-curr">NT$</span>2,300</div>
+        <div class="price-note" data-i18n="reg_note">早鳥名額售完後開放報名</div>
+        <ul class="price-list" id="price-list-regular"></ul>
+        <a href="#" class="btn btn-ghost btn-block btn-soon" style="font-size:1rem; padding:1rem;" data-i18n="reg_cta">報名即將開放</a>
+      </div>
+    </div>
+    <p style="margin-top:1.5rem; font-size:0.82rem; opacity:0.7; font-weight:700;" data-i18n="discount_note">🎟 2011年1月1日後出生之兒童享85折優惠 · 2008年1月1日後出生之年輕單匹狼享9折優惠——結帳時自動套用。</p>
+  </div>
+</section>
+
+<!-- ══ GALLERY ══ -->
+<section id="gallery">
+  <div class="container">
+    <span class="eyebrow light" data-i18n="gallery_eyebrow">比賽照片</span>
+    <h2 class="title white" data-i18n="gallery_title">賽場精彩瞬間</h2>
+  </div>
+  <div class="gallery-mosaic">
+    <div class="gm"><img src="assets/bts-downhill.jpg" alt="Runner on the downhill"></div>
+    <div class="gm"><img src="assets/BTS-Start-website.jpg" alt="Start line crowd"></div>
+    <div class="gm"><img src="assets/bts-high-fve.jpg" alt="High five on the course"></div>
+    <div class="gm"><img src="assets/leading-bts.jpg" alt="Leading runner"></div>
+    <div class="gm"><img src="assets/bts-djs.jpg" alt="DJs keeping the energy up"></div>
+    <div class="gm"><img src="assets/bts-runners-we.jpg" alt="Runners together"></div>
+    <div class="gm"><img src="assets/BTS-doggie.jpg" alt="Race day dog"></div>
+    <div class="gm"><img src="assets/runners-bts2.jpg" alt="Runners on course"></div>
+    <div class="gm"><img src="assets/volunteers.jpg" alt="Volunteers"></div>
+    <div class="gm"><img src="assets/runners-bts5.jpg" alt="Race energy"></div>
+  </div>
+  <p class="gallery-caption" data-i18n="gallery_caption">跑過夕陽 · 妙覺禪寺，土城，新北 · 歷屆精彩回顧</p>
+</section>
+
+<!-- ══ VOLUNTEER ══ -->
+<section id="volunteer" class="section">
+  <div class="container">
+    <div class="volunteer-grid">
+      <div class="volunteer-intro">
+        <span class="eyebrow light" data-i18n="vol_eyebrow">加入我們</span>
+        <h2 class="title white" data-i18n-html="vol_title">誠徵志工</h2>
+        <p data-i18n="vol_p1">想參與活動但不想跑步？加入我們的志工團隊，成為台灣最精彩比賽日的一份子！</p>
+        <p data-i18n="vol_p2">點擊下方按鈕寄信給我們，我們將盡快與您聯繫。</p>
+        <a href="mailto:info@runivore.com" class="btn btn-primary" style="margin-top:0.5rem;" data-i18n="vol_cta">申請志工 →</a>
+      </div>
+      <div class="volunteer-cards">
+        <div class="volunteer-card">
+          <h4 data-i18n="vol_ben_title">志工福利</h4>
+          <ul>
+            <li><span data-i18n="vol_ben1">免費活動 T 恤與紀念品</span></li>
+            <li><span data-i18n="vol_ben2">提供餐點與飲料</span></li>
+            <li><span data-i18n="vol_ben3">感謝狀</span></li>
+            <li><span data-i18n="vol_ben4">參與精彩活動體驗</span></li>
+            <li><span data-i18n="vol_ben5">與所有參賽者共同參加賽後慶祝</span></li>
+          </ul>
+        </div>
+        <div class="volunteer-card">
+          <h4 data-i18n="vol_role_title">志工職位</h4>
+          <ul>
+            <li><span data-i18n="vol_role1">賽道指引</span></li>
+            <li><span data-i18n="vol_role2">報到人員</span></li>
+            <li><span data-i18n="vol_role3">補給站</span></li>
+            <li><span data-i18n="vol_role4">攝影</span></li>
+            <li><span data-i18n="vol_role5">場地支援</span></li>
+            <li><span data-i18n="vol_role6">終點線</span></li>
+          </ul>
+          <p class="volunteer-note" data-i18n="vol_note">無需任何經驗——我們將提供完整培訓！</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section id="faq" class="section">
+  <div class="container">
+    <span class="eyebrow" data-i18n="faq_eyebrow">常見問題</span>
+    <h2 class="title">FAQ</h2>
+    <div class="faq-stack" id="faq-list"></div>
+  </div>
+</section>
+
+<!-- ══ REGISTER CTA ══ -->
+<section id="register">
+  <div class="register-content">
+    <span class="eyebrow" style="color:rgba(255,255,255,0.65)" data-i18n="reg_eyebrow">2026年11月7日</span>
+    <h2 class="title" data-i18n="reg_title">跑·挑戰·慶祝</h2>
+    <p class="register-sub" data-i18n="reg_sub">中午至日落。歡迎各程度。難忘的比賽體驗。</p>
+    <a href="#pricing" class="btn btn-dark btn-soon" style="font-size:1.1rem; padding:1.1rem 2.8rem;" data-i18n="reg_cta_btn">報名即將開放</a>
+    <p class="register-note" data-i18n="reg_note_text">早鳥 NT$2,100 · 一般 NT$2,300 · 前100名享早鳥優惠</p>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo"><img src="assets/bts-logo-colors.png" alt="Beat the Sunset"></div>
+      <p class="footer-tagline" data-i18n="footer_tagline">與夕陽競速。妙覺禪寺，土城 · 2026年11月7日。</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h6 data-i18n="footer_race_col">比賽</h6>
+        <ul>
+          <li><a href="#about" data-i18n="footer_about">關於比賽</a></li>
+          <li><a href="#how" data-i18n="footer_how">活動方式</a></li>
+          <li><a href="#course" data-i18n="footer_course">賽道</a></li>
+          <li><a href="#pricing" data-i18n="footer_pricing">報名</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h6 data-i18n="footer_info_col">資訊</h6>
+        <ul>
+          <li><a href="#gallery" data-i18n="footer_gallery">照片</a></li>
+          <li><a href="#volunteer" data-i18n="footer_volunteer">志工</a></li>
+          <li><a href="#faq" data-i18n="footer_faq">常見問題</a></li>
+          <li><a href="https://www.facebook.com/beatthesunset" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://maps.app.goo.gl/ssHdq1iNLrmkngn88" target="_blank" rel="noopener" data-i18n="footer_map">場地地圖</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h6 data-i18n="footer_contact_col">聯絡</h6>
+        <ul>
+          <li><a href="mailto:info@runivore.com">info@runivore.com</a></li>
+          <li><span class="footer-contact-text">Tom (English): 0987-117-699</span></li>
+          <li><span class="footer-contact-text">Lily (中文): 0920-831-011</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy" data-i18n="footer_copy">© 2026 Beat the Sunset. 版權所有。</p>
+    <div class="footer-runivore">
+      <span data-i18n="footer_org">主辦單位</span>
+      <img src="assets/runivore-logo.png" alt="Runivore">
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ══ TRANSLATIONS ══
+  const translations = {
+    zh: {
+      page_title: '跑過夕陽 2026 — 與時間競速',
+      nav_about: '關於比賽', nav_how: '活動方式', nav_course: '賽道',
+      nav_pricing: '報名', nav_gallery: '照片', nav_volunteer: '志工',
+      nav_faq: '常見問題', nav_cta: '報名即將開放',
+      hero_date_label: '日期', hero_time_label: '時間', hero_venue_label: '地點',
+      hero_date_val: '11月7日 星期六', hero_time_val: '中午12:00 至 日落',
+      hero_venue_val: '妙覺禪寺｜新北市土城區',
+      hero_quote: '「可能是全世界最有趣的比賽。」',
+      hero_btn_register: '報名即將開放', hero_btn_video: '觀看比賽影片',
+      hero_scroll: '向下滑動',
+      cd_days: '天', cd_hrs: '時', cd_min: '分', cd_sec: '秒',
+      race_day: '比賽日到了！🌅',
+      about_eyebrow: '關於比賽',
+      about_quote: '「一場獨一無二、與夕陽競賽的活動。」',
+      about_p1_html: '跑過夕陽是一場在台灣舉辦的獨一無二活動，您與隊友一起<strong>和夕陽賽跑</strong>，從中午12點開始，直到日落結束！',
+      about_p2_html: '沒有固定的終點距離。目標很簡單：在太陽消失之前，跑完盡可能多的 <strong>2.9 公里單圈</strong>。圈數最多的隊伍或個人獲勝。',
+      about_p3_html: '一般跑者完成每圈約需 25 至 30 分鐘——讓隊友有時間休息、補充體力、互相加油。現場氣氛<strong>熱鬧歡騰，與台灣其他活動截然不同</strong>。',
+      about_p4_html: '無論單人挑戰或組隊參賽，跑過夕陽歡迎各程度跑者。每位完成至少一圈的跑者都能獲得完賽禮物。',
+      stat1_lbl: '小時比賽', stat2_lbl: '公里每圈', stat3_lbl: '參賽組別', stat4_lbl: '顆夕陽',
+      about_badge_title: '歡迎各程度跑者',
+      about_badge_text: '初學者、週末跑者與競技跑者都能在同一條賽道上參賽，共同欣賞新北市壯麗的夕陽美景。',
+      video_eyebrow: '親眼見識才能相信', video_title: '感受比賽氛圍',
+      how_eyebrow: '活動當天', how_title: '活動方式',
+      how_sub: '概念簡單，樂趣無窮。中午12點到場，盡你所能跑更多2.9公里的單圈，在太陽下山前完成最後一圈。圈數最多者獲勝。',
+      step1_time: '中午12:00', step1_ttl: '比賽開始',
+      step1_txt: '正午一聲槍響，比賽正式開始！選手包從上午10:00起在妙覺禪寺開放領取，做好熱身，準備迎接這場最有趣的跑步體驗。',
+      step2_time: '2.9公里單圈', step2_ttl: '跑步與接力',
+      step2_txt: '每圈穿越自然地形，全長2.9公里——平均25至30分鐘完成。雙人組與超級四人組在終點線完成接力棒交接；單人組則直接出發跑下一圈。',
+      step3_time: '午後時光', step3_ttl: '天空燃起金光',
+      step3_txt: '黃金時刻讓賽道煥然一新。天空染成橙紅，人群歡呼聲更響，每一圈都成為難忘的畫面——這就是比賽升華為回憶的時刻。',
+      step4_time: '下午5:09', step4_ttl: '最後出發',
+      step4_txt: '日落前20分鐘為最後出發時間。只有在5:29 PM前完成的圈數才計入成績。圈數最多且用時最短者為冠軍。',
+      pillar1_ttl: '末日單匹狼',
+      pillar1_txt: '就是你對抗夕陽。每一圈都是你自己贏來的。分男子、女子組——適合喜歡從中午獨自挑戰到日落的跑者。',
+      pillar2_ttl: '默契雙人組',
+      pillar2_txt: '兩名跑者，一根接力棒，最強的默契。輪流上場，互相激勵。分男子、女子、混合雙人組——找到你的搭檔，開始計劃吧。',
+      pillar3_ttl: '超級四人組',
+      pillar3_txt: '四名跑者，一支傳奇戰隊。無論是衝冠的競速隊伍還是家庭休閒組——這是終極的團體賽格式。分男子、女子、混合四人組。',
+      course_eyebrow: '賽道', course_title: '美麗的循環路線',
+      course_desc: '賽道是一條2.9公里的山野公路混合循環路線，從土城妙覺禪寺出發——穿越自然地形爬坡後回到起點進行接力交接，景色優美，極具挑戰性。',
+      loc_label: '地點', loc_val: '妙覺禪寺，土城，新北，台灣',
+      loop_label: '單圈距離', loop_val: '2.9公里——返回起點進行接力交接',
+      laptime_label: '平均完圈時間', laptime_val: '一般跑者25至30分鐘——在日落前盡量完成更多圈',
+      terrain_label: '地形', terrain_val: '山野公路混合，含自然地形爬坡——挑戰性強但各程度皆可參與',
+      strava_btn: '在 Strava 查看', gpx_btn: '下載 GPX', maps_btn: '查看地圖',
+      vol_eyebrow: '加入我們', vol_title: '誠徵志工',
+      vol_p1: '想參與活動但不想跑步？加入我們的志工團隊，成為台灣最精彩比賽日的一份子！',
+      vol_p2: '點擊下方按鈕寄信給我們，我們將盡快與您聯繫。',
+      vol_cta: '申請志工 →',
+      vol_ben_title: '志工福利',
+      vol_ben1: '免費活動 T 恤與紀念品', vol_ben2: '提供餐點與飲料',
+      vol_ben3: '感謝狀', vol_ben4: '參與精彩活動體驗',
+      vol_ben5: '與所有參賽者共同參加賽後慶祝',
+      vol_role_title: '志工職位',
+      vol_role1: '賽道指引', vol_role2: '報到人員', vol_role3: '補給站',
+      vol_role4: '攝影', vol_role5: '場地支援', vol_role6: '終點線',
+      vol_note: '無需任何經驗——我們將提供完整培訓！',
+      pricing_eyebrow: '報名', pricing_title: '加入賽事',
+      pricing_sub: '搶先鎖定名額，別讓太陽先一步。早鳥限額前100名，只需 NT$2,100。',
+      ribbon_text: '限額', early_pill: '🔥 早鳥優惠 — 前100名', early_name: '早鳥',
+      early_note: '限前100名報名 · 額滿即止', early_cta: '立即報名 — 早鳥',
+      early_soon_note: '⏳ 報名即將開放',
+      reg_pill: '一般報名', reg_name: '一般',
+      reg_note: '早鳥名額售完後開放報名', reg_cta: '報名即將開放',
+      discount_note: '🎟 2011年1月1日後出生之兒童享85折優惠 · 2008年1月1日後出生之年輕單匹狼享9折優惠——結帳時自動套用。',
+      features: [
+        '活動紀念禮物', '活動 T 恤', '活動意外保險',
+        '客製號碼布 & 獨一無二接力棒（雙人／四人組）',
+        '免費活動照片（專業攝影）', '豐富補給點心與飲料（每小時不同驚喜）',
+        '美味午餐', '賽後生啤酒（由 RedPoint 提供）'
+      ],
+      gallery_eyebrow: '比賽照片', gallery_title: '賽場精彩瞬間',
+      gallery_caption: '跑過夕陽 · 妙覺禪寺，土城，新北 · 歷屆精彩回顧',
+      faq_eyebrow: '常見問題',
+      reg_eyebrow: '2026年11月7日', reg_title: '跑·挑戰·慶祝',
+      reg_sub: '中午至日落。歡迎各程度。難忘的比賽體驗。',
+      reg_cta_btn: '報名即將開放',
+      reg_note_text: '早鳥 NT$2,100 · 一般 NT$2,300 · 前100名享早鳥優惠',
+      footer_tagline: '與夕陽競速。妙覺禪寺，土城 · 2026年11月7日。',
+      footer_race_col: '比賽', footer_about: '關於比賽', footer_how: '活動方式',
+      footer_course: '賽道', footer_pricing: '報名',
+      footer_info_col: '資訊', footer_gallery: '照片', footer_volunteer: '志工',
+      footer_faq: '常見問題', footer_map: '場地地圖',
+      footer_contact_col: '聯絡',
+      footer_copy: '© 2026 Beat the Sunset. 版權所有。', footer_org: '主辦單位',
+      faqs: [
+        { q: '賽道如何標示？', a: '賽道以彩帶與粉筆清楚標示，讓您隨時知道該往哪裡跑。' },
+        { q: '賽道上有補給站嗎？', a: '由於賽道僅2.9公里，建議您在每圈結束後充分補給。您也可以自備水壺上場。現場另設有AED急救跑者，隨時監控跑者狀況。' },
+        { q: '比賽持續多長時間？', a: '第一圈從中午12點出發，比賽於日落結束——預計約下午5:29。所有跑者必須在此時間前完成圈次方可計入成績。最後出發時間設於日落前20分鐘，即下午5:09。' },
+        { q: '有年齡限制或要求嗎？', a: '16歲以下跑者需提供監護人簽署的同意書，或由監護人全程陪同參賽。' },
+        { q: '參賽者如何追蹤圈數與時間？', a: '我們提供兩種計時方式——電子計時（官方成績追蹤），以及現場大型計分板，讓所有人即時掌握各隊進度，緊張刺激！' },
+        { q: '午餐內容是什麼？', a: '我們提供美味的素食主餐，並每小時推出不同驚喜點心——包括布朗尼與冰淇淋——讓跑者整場活動都能保持充沛能量。' },
+        { q: '接力棒交接的具體規則是什麼？', a: '接力棒必須在跑者越過圈次終點線後，在指定區域內完成交接。每位隊員至少需完成一圈，隊伍才能獲得完賽禮物。' },
+        { q: '退費或轉讓政策為何？', a: '所有報名均不可退費。但在活動前一個月內可辦理轉讓。請透過我們的Facebook頁面聯繫安排轉讓事宜。' },
+        { q: '現場有哪些安全與醫療支援？', a: '現場設有救護車，以應對跑者的緊急醫療需求。同時安排受過急救訓練的AED跑者在賽道上與參賽者同步跑動，時刻守護安全。' },
+        { q: '現場有廁所嗎？', a: '有的——活動現場將提供流動廁所，並備有基本清洗設施。' },
+      ],
+    },
+
+    en: {
+      page_title: 'Beat the Sunset 2026 — Race Against Time',
+      nav_about: 'About', nav_how: 'Race Day', nav_course: 'Course',
+      nav_pricing: 'Register', nav_gallery: 'Gallery', nav_volunteer: 'Volunteer',
+      nav_faq: 'FAQ', nav_cta: 'Registration Opens Soon',
+      hero_date_label: 'Date', hero_time_label: 'Time', hero_venue_label: 'Venue',
+      hero_date_val: 'November 7, 2026', hero_time_val: 'Noon to Sunset',
+      hero_venue_val: 'Miaojue Temple, Tucheng',
+      hero_quote: '"Probably the most fun race in the world."',
+      hero_btn_register: 'Registration Opens Soon', hero_btn_video: 'Watch the Race',
+      hero_scroll: 'Scroll',
+      cd_days: 'Days', cd_hrs: 'Hrs', cd_min: 'Min', cd_sec: 'Sec',
+      race_day: 'Race Day! 🌅',
+      about_eyebrow: 'About',
+      about_quote: '"A one-of-a-kind race against the setting sun."',
+      about_p1_html: 'Beat the Sunset is a one-of-a-kind event in Taiwan where you and your teammates <strong>race against the setting sun</strong>, starting at noon and ending at sunset.',
+      about_p2_html: 'There\'s no fixed finish line distance. The goal is simple: run as many <strong>2.9 km loops</strong> as you can before the sun disappears. The team or individual with the most laps wins.',
+      about_p3_html: 'Average runners complete each loop in 25 to 30 minutes — giving teammates time to rest, refuel, and cheer each other on between laps. The atmosphere is <strong>festive, energetic, and unlike anything else in Taiwan</strong>.',
+      about_p4_html: 'Whether you go solo or bring a team of two or four, Beat the Sunset is designed to be competitive for fast runners and <strong>welcoming for all levels</strong>. Everyone who completes at least one lap earns a finisher gift.',
+      stat1_lbl: 'Hours of racing', stat2_lbl: 'km per loop',
+      stat3_lbl: 'Team categories', stat4_lbl: 'Sunset to beat',
+      about_badge_title: 'Open to All Levels',
+      about_badge_text: 'Beginners, weekend warriors, and competitive runners all share the same loop — and the same spectacular sunset over New Taipei.',
+      video_eyebrow: 'See It to Believe It', video_title: 'Feel the Race Energy',
+      how_eyebrow: 'Race Day', how_title: 'How It Works',
+      how_sub: 'Simple concept. Maximum fun. Show up at noon, run as many 2.9 km loops as you can, and get your last lap in before the sun goes down. Most laps wins.',
+      step1_time: '12:00 PM', step1_ttl: 'Race Start',
+      step1_txt: 'The gun goes off at high noon. Collect your race pack from 10:00 AM at Miaojue Temple, warm up, and get ready for the most fun you\'ll have in running shoes.',
+      step2_time: '2.9 km Loops', step2_ttl: 'Run & Pass',
+      step2_txt: 'Each loop is 2.9 km through natural terrain — average 25 to 30 minutes. Duos and Superteams pass the baton at the finish line; solo runners head straight back out.',
+      step3_time: 'Late Afternoon', step3_ttl: 'The Sky Ignites',
+      step3_txt: 'Golden hour transforms the course. The sky turns orange, the crowd gets louder, and every lap becomes cinematic. This is where the race becomes a memory.',
+      step4_time: '5:09 PM', step4_ttl: 'Last Call',
+      step4_txt: 'The final send-off is 20 minutes before sunset. Only laps completed before 5:29 PM count. Most laps with the fastest time is the champion.',
+      pillar1_ttl: 'Solo Survivors',
+      pillar1_txt: 'Just you against the sun. Every lap is yours to earn. Open to Male and Female runners — perfect for those who love the challenge of going it alone from noon to sunset.',
+      pillar2_ttl: 'Dynamic Duos',
+      pillar2_txt: 'Two runners, one baton, maximum teamwork. Alternate laps and push each other to keep going. Open as Male, Female, or Mixed pairs — find your partner and start planning.',
+      pillar3_ttl: 'Superteam Quads',
+      pillar3_txt: 'Four runners, one legendary team. Whether you\'re competitive runners gunning for the top or a family out for a fun day — this is the ultimate group race format. Male, Female, or Mixed.',
+      course_eyebrow: 'The Course', course_title: 'A Beautiful Loop',
+      course_desc: 'The course is a 2.9 km trail and road loop starting at Miaojue Temple in Tucheng — featuring a rewarding climb through nature before returning to the start for the next baton handoff.',
+      loc_label: 'Location', loc_val: 'Miaojue Temple, Tucheng, New Taipei, Taiwan',
+      loop_label: 'Loop Distance', loop_val: '2.9 km per loop — returns to the starting point for each baton handoff',
+      laptime_label: 'Average Lap Time', laptime_val: '25 to 30 minutes for average runners — run as many as you can before sunset',
+      terrain_label: 'Terrain', terrain_val: 'Trail and road mix with a climb through nature — challenging but accessible for all levels',
+      strava_btn: 'View on Strava', gpx_btn: 'Download GPX', maps_btn: 'Get Directions',
+      vol_eyebrow: 'Get Involved', vol_title: 'Volunteers<br>Welcome',
+      vol_p1: 'Want to participate in the event but don\'t want to run? Join our team of volunteers and be part of one of the most exciting race days in Taiwan!',
+      vol_p2: 'Click the button below to send us an email and we will get back to you soon.',
+      vol_cta: 'Enquire About Volunteering →',
+      vol_ben_title: 'Volunteer Benefits',
+      vol_ben1: 'Free event T-shirt and merchandise', vol_ben2: 'Meals and refreshments provided',
+      vol_ben3: 'Certificate of appreciation', vol_ben4: 'Be part of a fun, exciting event',
+      vol_ben5: 'Post-event celebration with all participants',
+      vol_role_title: 'Volunteer Roles',
+      vol_role1: 'Course marshals', vol_role2: 'Registration desk',
+      vol_role3: 'Aid station attendants', vol_role4: 'Photographers',
+      vol_role5: 'Setup and teardown crew', vol_role6: 'Finish line support',
+      vol_note: 'No experience necessary — we will provide all training needed!',
+      pricing_eyebrow: 'Registration', pricing_title: 'Join the Race',
+      pricing_sub: 'Lock in your spot before the sun does. The early bird price is strictly limited — only the first 100 registrants get in at NT$2,100.',
+      ribbon_text: 'Limited', early_pill: '🔥 Early Bird — First 100 Only', early_name: 'Early Bird',
+      early_note: 'Limited to first 100 registrants · closes when full', early_cta: 'Register — Early Bird',
+      early_soon_note: '⏳ Opening Soon',
+      reg_pill: 'Regular Registration', reg_name: 'Regular',
+      reg_note: 'Available after early bird slots are filled', reg_cta: 'Registration Opens Soon',
+      discount_note: '🎟 15% discount for kids born on or after 2011-01-01 · 10% discount for young solo runners born on or after 2008-01-01 — applied automatically at checkout.',
+      features: [
+        'Race gift & event T-shirt',
+        'Event & personal injury insurance',
+        'Personalized bib & team baton (Duos & Quads)',
+        'Professional event photography',
+        'Snacks, drinks & lunch (new treats every hour!)',
+        'Post-run draft beer (Redpoint)',
+      ],
+      gallery_eyebrow: 'Race Photos', gallery_title: 'From the Course',
+      gallery_caption: 'Beat the Sunset · Miaojue Temple, Tucheng, New Taipei · All Editions',
+      faq_eyebrow: 'Questions',
+      reg_eyebrow: 'November 7, 2026', reg_title: 'Run. Beat. Celebrate.',
+      reg_sub: 'Noon to sunset. All levels. One unforgettable race.',
+      reg_cta_btn: 'Registration Opens Soon',
+      reg_note_text: 'Early Bird NT$2,100 · Regular NT$2,300 · First 100 registrants get early bird price',
+      footer_tagline: 'Race against the setting sun. Miaojue Temple, Tucheng · November 7, 2026.',
+      footer_race_col: 'Race', footer_about: 'About', footer_how: 'How It Works',
+      footer_course: 'Course', footer_pricing: 'Registration',
+      footer_info_col: 'Info', footer_gallery: 'Gallery', footer_volunteer: 'Volunteer',
+      footer_faq: 'FAQ', footer_map: 'Venue Map',
+      footer_contact_col: 'Contact',
+      footer_copy: '© 2026 Beat the Sunset. All rights reserved.', footer_org: 'Organized by',
+      faqs: [
+        { q: 'How will the route be marked?', a: 'The route will be marked with a combination of ribbons and chalk so you always know where to go.' },
+        { q: 'Will there be aid stations along the way?', a: 'No — the course is only 2.9 km so we recommend you hydrate well between your laps. You may also bring a water bottle for your lap. There will also be AED runners on the course to monitor for any runners in distress.' },
+        { q: 'What is the duration of the race?', a: 'The first lap starts at noon and the race closes at sunset — estimated at 5:29 PM. All runners must be in by that time for their lap to count. We will set a last send-off at 20 minutes before sunset, at 5:09 PM.' },
+        { q: 'Are there any age restrictions or requirements?', a: 'We ask that runners under the age of 16 provide a permission slip signed by their guardians, or be accompanied by their guardians during the event.' },
+        { q: 'How can participants track their lap and time?', a: 'We have two timing methods — one is electronic for the official tracking of runners. The second is our BIG BOARD system where runners can see real-time updates of all teams\' progress, making it easy to track how each team is performing throughout the event.' },
+        { q: 'What is included in the lunch?', a: 'We provide a delicious vegetarian main meal, and every hour on the hour we introduce something new and exciting — including brownies and ice cream — to keep runners energized throughout the event.' },
+        { q: 'What are the specific rules for baton passing?', a: 'Participants can only pass the baton in the designated area after crossing the lap finish line. Every runner on the team must complete at least one lap for the team to receive a finisher gift.' },
+        { q: 'What is the refund or transfer policy?', a: 'All registrations are final and no refunds are possible. However, transfers are allowed until one month before the event. Contact us through our Facebook page to arrange a transfer.' },
+        { q: 'What safety and medical support is in place?', a: 'Beat the Sunset will have an ambulance on site in case anything should happen to our runners. We will also have first-response trained AED runners on the course running alongside participants.' },
+        { q: 'Are there restrooms available?', a: 'Yes — the venue will have porta potties available, and basic washing facilities will also be provided.' },
+      ],
+    },
+  };
+
+  // ══ CURRENT LANG ══
+  let currentLang = localStorage.getItem('bts-lang') || 'zh';
+
+  // ══ BUILD FAQ ══
+  function buildFAQ(lang) {
+    const faqList = document.getElementById('faq-list');
+    faqList.innerHTML = '';
+    translations[lang].faqs.forEach(({ q, a }) => {
+      const card = document.createElement('div');
+      card.className = 'faq-card';
+      card.innerHTML = `
+        <button class="faq-btn">
+          <span>${q}</span>
+          <span class="faq-ico">+</span>
+        </button>
+        <div class="faq-body">${a}</div>
+      `;
+      card.querySelector('.faq-btn').addEventListener('click', () => {
+        const isOpen = card.classList.contains('open');
+        document.querySelectorAll('.faq-card.open').forEach(c => c.classList.remove('open'));
+        if (!isOpen) card.classList.add('open');
+      });
+      faqList.appendChild(card);
+    });
+  }
+
+  // ══ BUILD PRICE LISTS ══
+  function buildPriceLists(lang) {
+    const feats = translations[lang].features;
+    const html = feats.map(f => `<li><span class="price-check"></span>${f}</li>`).join('');
+    document.getElementById('price-list-featured').innerHTML = html;
+    document.getElementById('price-list-regular').innerHTML = html;
+  }
+
+  // ══ SET LANG ══
+  function setLang(lang) {
+    const L = translations[lang];
+    document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+    document.title = L.page_title;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (L[key] !== undefined) el.textContent = L[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.dataset.i18nHtml;
+      if (L[key] !== undefined) el.innerHTML = L[key];
+    });
+
+    document.querySelectorAll('.lang-btn, .mobile-lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    buildFAQ(lang);
+    buildPriceLists(lang);
+    localStorage.setItem('bts-lang', lang);
+    currentLang = lang;
+  }
+
+  // ══ LANG TOGGLE LISTENERS ══
+  document.querySelectorAll('.lang-btn, .mobile-lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  });
+
+  // ══ ABOUT IMAGE ROTATOR ══
+  const aboutImgs = [
+    { src: 'assets/runners-bts.jpg',        alt: 'Runners at Beat the Sunset' },
+    { src: 'assets/BTS-website-runner.jpg', alt: 'Runner on course' },
+    { src: 'assets/bts-runner9.jpg',        alt: 'Runner pushing through' },
+    { src: 'assets/BTS-start-race-web.jpg', alt: 'Race start energy' },
+    { src: 'assets/bts-high-fve.jpg',       alt: 'High five on the course' },
+    { src: 'assets/BTS-website.jpg',        alt: 'Race atmosphere' },
+    { src: 'assets/leading-bts.jpg',        alt: 'Leading the pack' },
+  ];
+  let aboutIdx = Math.floor(Math.random() * aboutImgs.length);
+  const aboutImgEl = document.getElementById('about-img');
+  aboutImgEl.src = aboutImgs[aboutIdx].src;
+  aboutImgEl.alt = aboutImgs[aboutIdx].alt;
+  setInterval(() => {
+    aboutImgEl.style.opacity = '0';
+    setTimeout(() => {
+      aboutIdx = (aboutIdx + 1) % aboutImgs.length;
+      aboutImgEl.src = aboutImgs[aboutIdx].src;
+      aboutImgEl.alt = aboutImgs[aboutIdx].alt;
+      aboutImgEl.style.opacity = '1';
+    }, 700);
+  }, 4500);
+
+  // ══ NAV SCROLL ══
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60));
+
+  // ══ MOBILE MENU ══
+  const hamburger = document.getElementById('hamburger');
+  const mobileOverlay = document.getElementById('mobile-overlay');
+  const mobileClose = document.getElementById('mobile-close');
+  function openMenu()  { mobileOverlay.classList.add('open');    document.body.style.overflow = 'hidden'; }
+  function closeMenu() { mobileOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+  hamburger.addEventListener('click', openMenu);
+  mobileClose.addEventListener('click', closeMenu);
+  document.getElementById('mobile-nav').querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  // ══ COUNTDOWN ══
+  function tick() {
+    const target = new Date('2026-11-07T12:00:00+08:00');
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) {
+      document.getElementById('countdown').innerHTML =
+        `<p style="font-family:'Bebas Neue','PingFang TC',sans-serif;font-size:3rem;letter-spacing:.06em;color:var(--gold)">${translations[currentLang].race_day}</p>`;
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-d').textContent = String(d).padStart(3,'0');
+    document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 1000);
+
+  // ══ INIT ══
+  setLang(currentLang);
+</script>
+</body>
+</html>
