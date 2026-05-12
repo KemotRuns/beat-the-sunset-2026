@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>報名 — 跑過夕陽 2026</title>
+  <title>參賽者 — 跑過夕陽 2026</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/assets/bts-logo-colors.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -218,7 +218,7 @@
     <li><a href="/#gallery" data-i18n="nav_gallery">照片</a></li>
     <li><a href="/#volunteer" data-i18n="nav_volunteer">志工</a></li>
     <li><a href="/#faq" data-i18n="nav_faq">常見問題</a></li>
-    <li><a href="/2026/registration" class="nav-cta" data-i18n="nav_cta">報名</a></li>
+    <li><a href="/registration" class="nav-cta" data-i18n="nav_cta">報名</a></li>
   </ul>
   <div class="lang-toggle">
     <button class="lang-btn active" data-lang="zh">中文</button>
@@ -239,7 +239,7 @@
     <a href="/#gallery" data-i18n="nav_gallery">照片</a>
     <a href="/#volunteer" data-i18n="nav_volunteer">志工</a>
     <a href="/#faq" data-i18n="nav_faq">常見問題</a>
-    <a href="/2026/registration" class="mobile-cta" data-i18n="nav_cta">報名</a>
+    <a href="/registration" class="mobile-cta" data-i18n="nav_cta">報名</a>
   </nav>
   <div class="mobile-lang-row">
     <button class="mobile-lang-btn active" data-lang="zh">中文</button>
@@ -250,18 +250,18 @@
 <!-- ══ PAGE HEADER ══ -->
 <header class="page-header">
   <p class="page-header-eyebrow" data-i18n="reg_eyebrow">2026年11月7日</p>
-  <h1 data-i18n="page_reg_title">報名</h1>
-  <p data-i18n="page_reg_sub">跑過夕陽 2026 — 妙覺禪寺，土城，新北</p>
+  <h1 data-i18n="page_title_h1">參賽者</h1>
+  <p data-i18n="page_sub">跑過夕陽 2026 — 妙覺禪寺，土城，新北</p>
 </header>
 
 <!-- ══ RACERESULT WIDGET ══ -->
 <div class="widget-wrap">
-  <div id="divRRRegStart" class="RRRegStart"></div>
-  <script type="text/javascript" src="https://my.raceresult.com/RRRegStart/load.js?lang=en"></script>
+  <div id="divRRPublish" class="RRPublish"></div>
+  <script type="text/javascript" src="https://my.raceresult.com/RRPublish/load.js?lang=en"></script>
   <script type="text/javascript">
-    let rrs = new RRRegStart(document.getElementById("divRRRegStart"), 399064, "registration");
-    rrs.ShowTimerLogo = true;
-    rrs.ShowInfoText = false;
+    let rrp = new RRPublish(document.getElementById("divRRPublish"), 399064, "participants");
+    rrp.ShowTimerLogo = true;
+    rrp.ShowInfoText = false;
   </script>
 </div>
 
@@ -279,7 +279,7 @@
           <li><a href="/#about" data-i18n="footer_about">關於比賽</a></li>
           <li><a href="/#how" data-i18n="footer_how">活動方式</a></li>
           <li><a href="/#course" data-i18n="footer_course">賽道</a></li>
-          <li><a href="/2026/registration" data-i18n="footer_pricing">報名</a></li>
+          <li><a href="/registration" data-i18n="footer_pricing">報名</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -314,12 +314,12 @@
 <script>
   const translations = {
     zh: {
-      page_title: '報名 — 跑過夕陽 2026',
+      page_title: '參賽者 — 跑過夕陽 2026',
       nav_about: '關於比賽', nav_how: '活動方式', nav_course: '賽道',
       nav_gallery: '照片', nav_volunteer: '志工', nav_faq: '常見問題', nav_cta: '報名',
       reg_eyebrow: '2026年11月7日',
-      page_reg_title: '報名',
-      page_reg_sub: '跑過夕陽 2026 — 妙覺禪寺，土城，新北',
+      page_title_h1: '參賽者',
+      page_sub: '跑過夕陽 2026 — 妙覺禪寺，土城，新北',
       footer_tagline: '與夕陽競速。妙覺禪寺，土城 · 2026年11月7日。',
       footer_race_col: '比賽', footer_about: '關於比賽', footer_how: '活動方式',
       footer_course: '賽道', footer_pricing: '報名',
@@ -329,12 +329,12 @@
       footer_copy: '© 2026 Beat the Sunset. 版權所有。', footer_org: '主辦單位',
     },
     en: {
-      page_title: 'Registration — Beat the Sunset 2026',
+      page_title: 'Participants — Beat the Sunset 2026',
       nav_about: 'About', nav_how: 'How It Works', nav_course: 'Course',
       nav_gallery: 'Gallery', nav_volunteer: 'Volunteer', nav_faq: 'FAQ', nav_cta: 'Register',
       reg_eyebrow: 'November 7, 2026',
-      page_reg_title: 'Registration',
-      page_reg_sub: 'Beat the Sunset 2026 — Miaojue Temple, Tucheng, New Taipei',
+      page_title_h1: 'Participants',
+      page_sub: 'Beat the Sunset 2026 — Miaojue Temple, Tucheng, New Taipei',
       footer_tagline: 'Race against the setting sun. Miaojue Temple, Tucheng · November 7, 2026.',
       footer_race_col: 'Race', footer_about: 'About', footer_how: 'How It Works',
       footer_course: 'Course', footer_pricing: 'Registration',
