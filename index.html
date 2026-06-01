@@ -608,7 +608,7 @@
     .gallery-mosaic {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      grid-template-rows: 280px 200px 220px;
+      grid-template-rows: 280px 200px 220px 220px;
       gap: 6px;
       margin-top: 3rem;
     }
@@ -628,6 +628,10 @@
     .gm:nth-child(8)  { grid-column: 4 / 7;   grid-row: 3 / 4; }
     .gm:nth-child(9)  { grid-column: 7 / 10;  grid-row: 3 / 4; }
     .gm:nth-child(10) { grid-column: 10 / 13; grid-row: 3 / 4; }
+    .gm:nth-child(11) { grid-column: 1 / 4;   grid-row: 4 / 5; }
+    .gm:nth-child(12) { grid-column: 4 / 7;   grid-row: 4 / 5; }
+    .gm:nth-child(13) { grid-column: 7 / 10;  grid-row: 4 / 5; }
+    .gm:nth-child(14) { grid-column: 10 / 13; grid-row: 4 / 5; }
 
     .gallery-caption {
       background: var(--dark2); color: white;
@@ -635,6 +639,47 @@
       font-size: 0.85rem; opacity: 0.5; font-weight: 700;
       letter-spacing: 0.08em;
     }
+
+    /* ══ SPONSORS ══ */
+    #sponsors { background: var(--cream); }
+    .sponsor-cards {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem;
+    }
+    .sponsor-card {
+      display: flex; align-items: center; gap: 1.6rem;
+      background: white; border-radius: 20px;
+      padding: 1.8rem 2rem;
+      text-decoration: none; color: var(--dark);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.07);
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .sponsor-card:hover { box-shadow: 0 6px 32px rgba(0,0,0,0.13); transform: translateY(-3px); }
+    .sponsor-logo-wrap {
+      width: 96px; height: 96px; flex-shrink: 0;
+      border-radius: 14px; overflow: hidden;
+      background: oklch(0.93 0.016 72);
+    }
+    .sponsor-logo-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .sponsor-logo-contain img { object-fit: contain; padding: 10px; }
+    .sponsor-name {
+      font-family: 'Bebas Neue', 'PingFang TC', sans-serif;
+      font-size: 1.7rem; color: var(--dark);
+      line-height: 1; margin-bottom: 0.3rem;
+    }
+    .sponsor-role {
+      font-size: 0.7rem; font-weight: 900;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 0.45rem;
+    }
+    .sponsor-desc { font-size: 0.88rem; opacity: 0.62; line-height: 1.55; }
+    .sponsor-more-link {
+      display: inline-block; margin-top: 2.5rem;
+      color: var(--orange); text-decoration: none;
+      font-size: 0.78rem; font-weight: 900;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+    .sponsor-more-link:hover { opacity: 0.65; }
 
     /* ══ FAQ ══ */
     #faq { background: var(--cream); padding: 6rem 2rem; }
@@ -788,6 +833,7 @@
       .steps-grid { grid-template-columns: 1fr 1fr; }
       .pillars { grid-template-columns: 1fr; }
       .pricing-grid { grid-template-columns: 1fr; max-width: 460px; }
+      .sponsor-cards { grid-template-columns: 1fr; }
       .gallery-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
       .gm:nth-child(n) { grid-column: span 1 !important; grid-row: span 1 !important; height: 200px; }
       .footer-cols { gap: 2rem; }
@@ -831,6 +877,7 @@
     <li><a href="/participants" data-i18n="nav_participants">參賽者</a></li>
     <li><a href="#volunteer" data-i18n="nav_volunteer">志工</a></li>
     <li><a href="#faq" data-i18n="nav_faq">常見問題</a></li>
+    <li><a href="/sponsors" data-i18n="nav_sponsors">贊助商</a></li>
     <li><a href="/registration" class="nav-cta" data-i18n="nav_cta">報名</a></li>
   </ul>
   <div class="lang-toggle">
@@ -851,6 +898,7 @@
     <a href="/participants" data-i18n="nav_participants">參賽者</a>
     <a href="#volunteer" data-i18n="nav_volunteer">志工</a>
     <a href="#faq" data-i18n="nav_faq">常見問題</a>
+    <a href="/sponsors" data-i18n="nav_sponsors">贊助商</a>
     <a href="/registration" class="mobile-cta" data-i18n="nav_cta">報名</a>
   </nav>
 </div>
@@ -1137,6 +1185,10 @@
     <div class="gm"><img src="assets/runners-bts2.jpg" alt="Runners on course"></div>
     <div class="gm"><img src="assets/volunteers.jpg" alt="Volunteers"></div>
     <div class="gm"><img src="assets/runners-bts5.jpg" alt="Race energy"></div>
+    <div class="gm"><img src="assets/Redpoint1.jpeg" alt="Redpoint Brewing post-race beer"></div>
+    <div class="gm"><img src="assets/redpoint2.jpeg" alt="Redpoint craft beer at the finish"></div>
+    <div class="gm"><img src="assets/redpoint7.jpeg" alt="Redpoint Brewing Taiwan"></div>
+    <div class="gm"><img src="assets/redpoint10.jpeg" alt="Post-race Redpoint beer"></div>
   </div>
   <p class="gallery-caption" data-i18n="gallery_caption">跑過夕陽 · 妙覺禪寺，土城，新北 · 歷屆精彩回顧</p>
 </section>
@@ -1177,6 +1229,37 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ══ SPONSORS ══ -->
+<section id="sponsors" class="section">
+  <div class="container">
+    <span class="eyebrow" data-i18n="sponsors_eyebrow">贊助商與支持者</span>
+    <h2 class="title" data-i18n="sponsors_title">感謝支持</h2>
+    <div class="sponsor-cards">
+      <a class="sponsor-card" href="https://www.facebook.com/BeastRunners" target="_blank" rel="noopener">
+        <div class="sponsor-logo-wrap">
+          <img src="assets/beastrunners.jpg" alt="Beast Runners">
+        </div>
+        <div>
+          <h3 class="sponsor-name">Beast Runners</h3>
+          <p class="sponsor-role" data-i18n="sponsor_beast_role">計時夥伴</p>
+          <p class="sponsor-desc" data-i18n="sponsor_beast_desc">台灣頂尖越野賽事組織者，提供世界級計時服務</p>
+        </div>
+      </a>
+      <a class="sponsor-card" href="https://www.redpointbrewing.com/" target="_blank" rel="noopener">
+        <div class="sponsor-logo-wrap sponsor-logo-contain">
+          <img src="assets/redpoint-logo.webp" alt="Redpoint Brewing">
+        </div>
+        <div>
+          <h3 class="sponsor-name">Redpoint Brewing</h3>
+          <p class="sponsor-role" data-i18n="sponsor_redpoint_role">賽後啤酒贊助商</p>
+          <p class="sponsor-desc" data-i18n="sponsor_redpoint_desc">台灣獨立精釀啤酒先驅，長期支持 Runivore 賽事</p>
+        </div>
+      </a>
+    </div>
+    <a href="/sponsors" class="sponsor-more-link" data-i18n="sponsors_link">了解更多關於贊助商 →</a>
   </div>
 </section>
 
@@ -1223,6 +1306,7 @@
           <li><a href="#gallery" data-i18n="footer_gallery">照片</a></li>
           <li><a href="#volunteer" data-i18n="footer_volunteer">志工</a></li>
           <li><a href="#faq" data-i18n="footer_faq">常見問題</a></li>
+          <li><a href="/sponsors" data-i18n="footer_sponsors">贊助商</a></li>
           <li><a href="https://www.facebook.com/beatthesunset" target="_blank" rel="noopener">Facebook</a></li>
           <li><a href="https://maps.app.goo.gl/ssHdq1iNLrmkngn88" target="_blank" rel="noopener" data-i18n="footer_map">場地地圖</a></li>
         </ul>
@@ -1252,7 +1336,7 @@
     zh: {
       page_title: '跑過夕陽 2026 — 與時間競速',
       nav_about: '關於比賽', nav_registration: '報名', nav_participants: '參賽者',
-      nav_volunteer: '志工', nav_faq: '常見問題', nav_cta: '報名',
+      nav_volunteer: '志工', nav_faq: '常見問題', nav_sponsors: '贊助商', nav_cta: '報名',
       hero_date_label: '日期', hero_time_label: '時間', hero_venue_label: '地點',
       hero_date_val: '11月7日 星期六', hero_time_val: '中午12:00 至 日落',
       hero_venue_val: '妙覺禪寺｜新北市土城區',
@@ -1333,7 +1417,13 @@
       footer_race_col: '比賽', footer_about: '關於比賽', footer_how: '活動方式',
       footer_course: '賽道', footer_pricing: '報名',
       footer_info_col: '資訊', footer_gallery: '照片', footer_volunteer: '志工',
-      footer_faq: '常見問題', footer_map: '場地地圖',
+      footer_faq: '常見問題', footer_sponsors: '贊助商', footer_map: '場地地圖',
+      sponsors_eyebrow: '贊助商與支持者', sponsors_title: '感謝支持',
+      sponsor_beast_role: '計時夥伴',
+      sponsor_beast_desc: '台灣頂尖越野賽事組織者，提供世界級計時服務',
+      sponsor_redpoint_role: '賽後啤酒贊助商',
+      sponsor_redpoint_desc: '台灣獨立精釀啤酒先驅，長期支持 Runivore 賽事',
+      sponsors_link: '了解更多關於贊助商 →',
       footer_contact_col: '聯絡',
       footer_copy: '© 2026 Beat the Sunset. 版權所有。', footer_org: '主辦單位',
       faqs: [
@@ -1353,7 +1443,7 @@
     en: {
       page_title: 'Beat the Sunset 2026 — Race Against Time',
       nav_about: 'About', nav_registration: 'Registration', nav_participants: 'Participants',
-      nav_volunteer: 'Volunteer', nav_faq: 'FAQ', nav_cta: 'Register',
+      nav_volunteer: 'Volunteer', nav_faq: 'FAQ', nav_sponsors: 'Sponsors', nav_cta: 'Register',
       hero_date_label: 'Date', hero_time_label: 'Time', hero_venue_label: 'Venue',
       hero_date_val: 'November 7, 2026', hero_time_val: 'Noon to Sunset',
       hero_venue_val: 'Miaojue Temple, Tucheng',
@@ -1438,7 +1528,13 @@
       footer_race_col: 'Race', footer_about: 'About', footer_how: 'How It Works',
       footer_course: 'Course', footer_pricing: 'Registration',
       footer_info_col: 'Info', footer_gallery: 'Gallery', footer_volunteer: 'Volunteer',
-      footer_faq: 'FAQ', footer_map: 'Venue Map',
+      footer_faq: 'FAQ', footer_sponsors: 'Sponsors', footer_map: 'Venue Map',
+      sponsors_eyebrow: 'Sponsors & Supporters', sponsors_title: 'Thank You',
+      sponsor_beast_role: 'Timing Partner',
+      sponsor_beast_desc: "Taiwan's premier trail race organizers bringing world-class timing to Beat the Sunset",
+      sponsor_redpoint_role: 'Post-Race Beer Sponsor',
+      sponsor_redpoint_desc: "Taiwan's pioneering independent craft brewery and long-time Runivore event supporter",
+      sponsors_link: 'Learn More About Our Sponsors →',
       footer_contact_col: 'Contact',
       footer_copy: '© 2026 Beat the Sunset. All rights reserved.', footer_org: 'Organized by',
       faqs: [

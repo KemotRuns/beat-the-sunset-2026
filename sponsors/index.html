@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>報名 — 跑過夕陽 2026</title>
+  <title>贊助商 — 跑過夕陽 2026</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" href="/assets/bts-logo-colors.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -150,16 +150,74 @@
       letter-spacing: 0.04em;
     }
 
-    /* ══ WIDGET SECTION ══ */
-    .widget-wrap {
-      width: 100%;
-      padding: 3rem 0 5rem;
+    /* ══ SPONSOR SECTIONS ══ */
+    .sponsor-section {
+      padding: 6rem 3rem;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .sponsor-section:first-of-type { padding-top: 5rem; }
+
+    .sponsor-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .sponsor-grid.reverse { direction: rtl; }
+    .sponsor-grid.reverse > * { direction: ltr; }
+
+    .sponsor-img-wrap {
+      border-radius: 24px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+    }
+    .sponsor-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+
+    .sponsor-text { display: flex; flex-direction: column; gap: 1.2rem; }
+
+    .sponsor-eyebrow {
+      font-size: 0.7rem; font-weight: 900;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--orange);
+    }
+
+    .sponsor-name {
+      font-family: 'Bebas Neue', 'PingFang TC', sans-serif;
+      font-size: clamp(2.8rem, 5vw, 4rem);
+      line-height: 0.95; color: var(--dark);
+    }
+
+    .sponsor-body p {
+      font-size: 1.05rem; line-height: 1.78;
+      color: oklch(0.38 0.03 28); margin-bottom: 0.9rem;
+    }
+    .sponsor-body p:last-child { margin-bottom: 0; }
+
+    .sponsor-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      margin-top: 0.5rem;
+      background: var(--orange); color: white;
+      text-decoration: none; font-weight: 800;
+      font-size: 0.85rem; letter-spacing: 0.06em;
+      padding: 0.85rem 1.8rem; border-radius: 2rem;
+      transition: background 0.2s;
+      align-self: flex-start;
+    }
+    .sponsor-link:hover { background: var(--deep-orange); }
+
+    .divider {
+      max-width: 1100px; margin: 0 auto;
+      border: none; border-top: 1px solid rgba(0,0,0,0.1);
     }
 
     /* ══ FOOTER ══ */
     footer {
       background: oklch(0.94 0.018 72); color: var(--dark);
       padding: 3.5rem 3rem 2rem;
+      margin-top: 4rem;
     }
     .footer-top {
       display: flex; align-items: flex-start; justify-content: space-between;
@@ -195,12 +253,15 @@
     .footer-runivore span { font-size: 0.72rem; opacity: 0.45; font-weight: 700; }
     .footer-runivore img { height: 22px; opacity: 0.55; }
 
-    @media (max-width: 600px) {
+    @media (max-width: 960px) {
       nav { padding: 1rem 1.5rem; justify-content: flex-end; }
       .nav-hamburger { display: flex; }
       .nav-links { display: none !important; }
-      .lang-toggle { display: flex; }
-      .lang-btn { padding: 0.3rem 0.75rem; font-size: 0.72rem; }
+      .sponsor-grid, .sponsor-grid.reverse { grid-template-columns: 1fr; direction: ltr; gap: 2.5rem; }
+      .sponsor-img-wrap { aspect-ratio: 16/9; }
+      .sponsor-section { padding: 4rem 2rem; }
+    }
+    @media (max-width: 600px) {
       .page-header { padding: 6rem 1.5rem 2.5rem; }
       footer { padding: 2.5rem 1.2rem 1.5rem; }
       .footer-cols { gap: 2rem; }
@@ -215,9 +276,6 @@
     <li><a href="/#about" data-i18n="nav_about">關於比賽</a></li>
     <li><a href="/registration" data-i18n="nav_registration">報名</a></li>
     <li><a href="/participants" data-i18n="nav_participants">參賽者</a></li>
-    
-    
-    
     <li><a href="/#volunteer" data-i18n="nav_volunteer">志工</a></li>
     <li><a href="/#faq" data-i18n="nav_faq">常見問題</a></li>
     <li><a href="/sponsors" data-i18n="nav_sponsors">贊助商</a></li>
@@ -252,20 +310,49 @@
 
 <!-- ══ PAGE HEADER ══ -->
 <header class="page-header">
-  <p class="page-header-eyebrow" data-i18n="reg_eyebrow">2026年11月7日</p>
-  <h1 data-i18n="page_reg_title">報名</h1>
-  <p data-i18n="page_reg_sub">跑過夕陽 2026 — 妙覺禪寺，土城，新北</p>
+  <p class="page-header-eyebrow" data-i18n="header_eyebrow">跑過夕陽 2026</p>
+  <h1 data-i18n="page_title_h1">贊助商與支持者</h1>
+  <p data-i18n="page_sub">感謝讓這場比賽成為可能的夥伴們</p>
 </header>
 
-<!-- ══ RACERESULT WIDGET ══ -->
-<div class="widget-wrap">
-  <div id="divRRRegStart" class="RRRegStart"></div>
-  <script type="text/javascript" src="https://my.raceresult.com/RRRegStart/load.js?lang=en"></script>
-  <script type="text/javascript">
-    let rrs = new RRRegStart(document.getElementById("divRRRegStart"), 399064, "registration");
-    rrs.ShowTimerLogo = true;
-    rrs.ShowInfoText = false;
-  </script>
+<!-- ══ BEAST RUNNERS ══ -->
+<div class="sponsor-section">
+  <div class="sponsor-grid">
+    <div class="sponsor-img-wrap">
+      <img src="/assets/Beastrunners-Organizers.jpg" alt="Beast Runners — Taiwan Trail Race Organizers">
+    </div>
+    <div class="sponsor-text">
+      <p class="sponsor-eyebrow" data-i18n="beast_eyebrow">計時夥伴</p>
+      <h2 class="sponsor-name">Beast Runners</h2>
+      <div class="sponsor-body">
+        <p data-i18n="beast_p1">Beast Runners 是台灣頂尖的越野賽事組織者，也是享譽全球的 Formosa Trail 背後的推手——一場穿越台灣最壯麗山脈的史詩級賽事。</p>
+        <p data-i18n="beast_p2">他們同時也是 Runivore 的長期合作夥伴，共同主辦了 Explore Your Backyard——一場帶領跑者深入探索台灣秘境的系列活動。</p>
+        <p data-i18n="beast_p3">對於跑過夕陽，Beast Runners 提供他們最頂尖的計時科技，確保每一圈成績都能精準記錄，讓每位參賽者在與夕陽的競賽中留下真實的紀錄。</p>
+      </div>
+      <a class="sponsor-link" href="https://www.facebook.com/BeastRunners" target="_blank" rel="noopener" data-i18n="beast_link">前往 Beast Runners →</a>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ REDPOINT BREWING ══ -->
+<div class="sponsor-section">
+  <div class="sponsor-grid reverse">
+    <div class="sponsor-img-wrap">
+      <img src="/assets/redpoint5.jpeg" alt="Redpoint Brewing — Taiwan Craft Beer">
+    </div>
+    <div class="sponsor-text">
+      <p class="sponsor-eyebrow" data-i18n="redpoint_eyebrow">賽後啤酒贊助商</p>
+      <h2 class="sponsor-name">Redpoint Brewing</h2>
+      <div class="sponsor-body">
+        <p data-i18n="redpoint_p1">Redpoint Brewing 是台灣歷史最悠久的獨立精釀啤酒廠之一，以出色的風味與釀造工藝在業界樹立了標竿。</p>
+        <p data-i18n="redpoint_p2">他們是 Runivore 賽事的長期忠實夥伴，每一屆比賽結束後，都是 Redpoint 那杯清涼的生啤酒，為所有跑者畫上最完美的句點。</p>
+        <p data-i18n="redpoint_p3">完成最後一圈、跑贏夕陽之後，沒有什麼比得上一杯冰涼的 Redpoint 精釀啤酒——這是你應得的獎賞。</p>
+      </div>
+      <a class="sponsor-link" href="https://www.redpointbrewing.com/" target="_blank" rel="noopener" data-i18n="redpoint_link">前往 Redpoint Brewing →</a>
+    </div>
+  </div>
 </div>
 
 <!-- ══ FOOTER ══ -->
@@ -291,6 +378,7 @@
           <li><a href="/#gallery" data-i18n="footer_gallery">照片</a></li>
           <li><a href="/#volunteer" data-i18n="footer_volunteer">志工</a></li>
           <li><a href="/#faq" data-i18n="footer_faq">常見問題</a></li>
+          <li><a href="/sponsors" data-i18n="footer_sponsors">贊助商</a></li>
           <li><a href="https://www.facebook.com/beatthesunset" target="_blank" rel="noopener">Facebook</a></li>
           <li><a href="https://maps.app.goo.gl/ssHdq1iNLrmkngn88" target="_blank" rel="noopener" data-i18n="footer_map">場地地圖</a></li>
         </ul>
@@ -317,32 +405,52 @@
 <script>
   const translations = {
     zh: {
-      page_title: '報名 — 跑過夕陽 2026',
+      page_title: '贊助商 — 跑過夕陽 2026',
       nav_about: '關於比賽', nav_registration: '報名', nav_participants: '參賽者',
       nav_volunteer: '志工', nav_faq: '常見問題', nav_sponsors: '贊助商', nav_cta: '報名',
-      reg_eyebrow: '2026年11月7日',
-      page_reg_title: '報名',
-      page_reg_sub: '跑過夕陽 2026 — 妙覺禪寺，土城，新北',
+      header_eyebrow: '跑過夕陽 2026',
+      page_title_h1: '贊助商與支持者',
+      page_sub: '感謝讓這場比賽成為可能的夥伴們',
+      beast_eyebrow: '計時夥伴',
+      beast_p1: 'Beast Runners 是台灣頂尖的越野賽事組織者，也是享譽全球的 Formosa Trail 背後的推手——一場穿越台灣最壯麗山脈的史詩級賽事。',
+      beast_p2: '他們同時也是 Runivore 的長期合作夥伴，共同主辦了 Explore Your Backyard——一場帶領跑者深入探索台灣秘境的系列活動。',
+      beast_p3: '對於跑過夕陽，Beast Runners 提供他們最頂尖的計時科技，確保每一圈成績都能精準記錄，讓每位參賽者在與夕陽的競賽中留下真實的紀錄。',
+      beast_link: '前往 Beast Runners →',
+      redpoint_eyebrow: '賽後啤酒贊助商',
+      redpoint_p1: 'Redpoint Brewing 是台灣歷史最悠久的獨立精釀啤酒廠之一，以出色的風味與釀造工藝在業界樹立了標竿。',
+      redpoint_p2: '他們是 Runivore 賽事的長期忠實夥伴，每一屆比賽結束後，都是 Redpoint 那杯清涼的生啤酒，為所有跑者畫上最完美的句點。',
+      redpoint_p3: '完成最後一圈、跑贏夕陽之後，沒有什麼比得上一杯冰涼的 Redpoint 精釀啤酒——這是你應得的獎賞。',
+      redpoint_link: '前往 Redpoint Brewing →',
       footer_tagline: '與夕陽競速。妙覺禪寺，土城 · 2026年11月7日。',
       footer_race_col: '比賽', footer_about: '關於比賽', footer_how: '活動方式',
       footer_course: '賽道', footer_pricing: '報名',
       footer_info_col: '資訊', footer_gallery: '照片', footer_volunteer: '志工',
-      footer_faq: '常見問題', footer_map: '場地地圖',
+      footer_faq: '常見問題', footer_sponsors: '贊助商', footer_map: '場地地圖',
       footer_contact_col: '聯絡',
       footer_copy: '© 2026 Beat the Sunset. 版權所有。', footer_org: '主辦單位',
     },
     en: {
-      page_title: 'Registration — Beat the Sunset 2026',
+      page_title: 'Sponsors — Beat the Sunset 2026',
       nav_about: 'About', nav_registration: 'Registration', nav_participants: 'Participants',
       nav_volunteer: 'Volunteer', nav_faq: 'FAQ', nav_sponsors: 'Sponsors', nav_cta: 'Register',
-      reg_eyebrow: 'November 7, 2026',
-      page_reg_title: 'Registration',
-      page_reg_sub: 'Beat the Sunset 2026 — Miaojue Temple, Tucheng, New Taipei',
+      header_eyebrow: 'Beat the Sunset 2026',
+      page_title_h1: 'Sponsors & Supporters',
+      page_sub: 'The partners who make this race possible',
+      beast_eyebrow: 'Timing Partner',
+      beast_p1: 'Beast Runners are the organizers behind some of the most epic trail races in Taiwan, including Formosa Trail — a world-class race through Taiwan\'s most spectacular mountain terrain.',
+      beast_p2: 'They are also long-time Runivore collaborators, co-organizing Explore Your Backyard — a series that takes runners off the beaten path and into the hidden corners of Taiwan.',
+      beast_p3: 'For Beat the Sunset, Beast Runners bring their best-in-class timing technology to the finish line, ensuring every lap is captured with precision so every runner gets the result they earned.',
+      beast_link: 'Visit Beast Runners →',
+      redpoint_eyebrow: 'Post-Race Beer Sponsor',
+      redpoint_p1: 'Redpoint Brewing is one of Taiwan\'s longest-running independent craft breweries, known for outstanding flavour and a commitment to quality that has set the standard for craft beer in Taiwan.',
+      redpoint_p2: 'They have been loyal supporters of Runivore events for years, and it\'s Redpoint\'s cold draft beer that puts the perfect exclamation mark on every race finish.',
+      redpoint_p3: 'After your last lap, after you\'ve beaten the sunset — there\'s nothing better than an ice-cold Redpoint. You\'ve earned it.',
+      redpoint_link: 'Visit Redpoint Brewing →',
       footer_tagline: 'Race against the setting sun. Miaojue Temple, Tucheng · November 7, 2026.',
       footer_race_col: 'Race', footer_about: 'About', footer_how: 'How It Works',
       footer_course: 'Course', footer_pricing: 'Registration',
       footer_info_col: 'Info', footer_gallery: 'Gallery', footer_volunteer: 'Volunteer',
-      footer_faq: 'FAQ', footer_map: 'Venue Map',
+      footer_faq: 'FAQ', footer_sponsors: 'Sponsors', footer_map: 'Venue Map',
       footer_contact_col: 'Contact',
       footer_copy: '© 2026 Beat the Sunset. All rights reserved.', footer_org: 'Organized by',
     }
