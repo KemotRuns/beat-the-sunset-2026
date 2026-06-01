@@ -711,6 +711,40 @@
     }
     .faq-card.open .faq-body { max-height: 400px; padding-bottom: 1.4rem; }
 
+    /* ══ RUNIVORE STRIP ══ */
+    #runivore {
+      background: white;
+      border-top: 1px solid rgba(0,0,0,0.07);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .runivore-inner {
+      max-width: 1100px; margin: 0 auto; padding: 2.8rem 2rem;
+      display: flex; align-items: center; gap: 2.5rem; flex-wrap: wrap;
+    }
+    .runivore-logo-link { flex-shrink: 0; display: block; }
+    .runivore-logo-link img { height: 32px; opacity: 0.72; transition: opacity 0.2s; display: block; }
+    .runivore-logo-link:hover img { opacity: 1; }
+    .runivore-vr { width: 1px; height: 44px; background: rgba(0,0,0,0.12); flex-shrink: 0; }
+    .runivore-text { flex: 1; min-width: 240px; }
+    .runivore-label {
+      display: block; font-size: 0.62rem; font-weight: 900;
+      letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.35;
+      margin-bottom: 0.35rem;
+    }
+    .runivore-tagline { font-size: 0.9rem; font-weight: 700; opacity: 0.62; margin-bottom: 0.8rem; line-height: 1.5; }
+    .runivore-events { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .runivore-event {
+      text-decoration: none;
+      background: oklch(0.96 0.016 72);
+      border: 1px solid rgba(0,0,0,0.09);
+      border-radius: 10px; padding: 0.5rem 0.85rem;
+      display: flex; flex-direction: column; gap: 0.1rem;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .runivore-event:hover { border-color: var(--orange); background: oklch(0.975 0.02 50); }
+    .runivore-event-name { font-size: 0.78rem; font-weight: 900; color: var(--orange); letter-spacing: 0.02em; }
+    .runivore-event-desc { font-size: 0.7rem; opacity: 0.5; font-weight: 700; color: var(--dark); }
+
     /* ══ REGISTER CTA ══ */
     #register {
       background: var(--orange);
@@ -860,6 +894,8 @@
       #pricing { padding: 4rem 1.2rem; }
       #faq { padding: 4rem 1.2rem; }
       #register { padding: 4rem 1.2rem; }
+      .runivore-vr { display: none; }
+      .runivore-inner { padding: 2rem 1.2rem; gap: 1.5rem; }
       footer { padding: 2.5rem 1.2rem 1.5rem; }
       .gallery-mosaic { grid-template-columns: 1fr; }
       .gm:nth-child(n) { height: 200px !important; }
@@ -1181,11 +1217,11 @@
     <div class="gm"><img src="assets/leading-bts.jpg" alt="Leading runner"></div>
     <div class="gm"><img src="assets/bts-djs.jpg" alt="DJs keeping the energy up"></div>
     <div class="gm"><img src="assets/bts-runners-we.jpg" alt="Runners together"></div>
-    <div class="gm"><img src="assets/BTS-doggie.jpg" alt="Race day dog"></div>
+    <div class="gm"><img src="assets/Redpoint1.jpeg" alt="Redpoint Brewing post-race beer"></div>
     <div class="gm"><img src="assets/runners-bts2.jpg" alt="Runners on course"></div>
     <div class="gm"><img src="assets/volunteers.jpg" alt="Volunteers"></div>
     <div class="gm"><img src="assets/runners-bts5.jpg" alt="Race energy"></div>
-    <div class="gm"><img src="assets/Redpoint1.jpeg" alt="Redpoint Brewing post-race beer"></div>
+    <div class="gm"><img src="assets/BTS-doggie.jpg" alt="Race day dog"></div>
     <div class="gm"><img src="assets/redpoint2.jpeg" alt="Redpoint craft beer at the finish"></div>
     <div class="gm"><img src="assets/redpoint7.jpeg" alt="Redpoint Brewing Taiwan"></div>
     <div class="gm"><img src="assets/redpoint10.jpeg" alt="Post-race Redpoint beer"></div>
@@ -1283,6 +1319,30 @@
   </div>
 </section>
 
+<!-- ══ RUNIVORE ══ -->
+<section id="runivore">
+  <div class="runivore-inner">
+    <a href="https://www.runivore.com" target="_blank" rel="noopener" class="runivore-logo-link">
+      <img src="assets/runivore-logo.png" alt="Runivore">
+    </a>
+    <div class="runivore-vr"></div>
+    <div class="runivore-text">
+      <span class="runivore-label" data-i18n="runivore_label">主辦單位</span>
+      <p class="runivore-tagline" data-i18n="runivore_tagline">我們熱愛舉辦獨特有趣的跑步活動。</p>
+      <div class="runivore-events">
+        <a href="https://backyard.run" target="_blank" rel="noopener" class="runivore-event">
+          <span class="runivore-event-name">Explore Your Backyard</span>
+          <span class="runivore-event-desc" data-i18n="eyb_desc">新北最硬派的近超馬越野賽事</span>
+        </a>
+        <a href="https://www.taipeibackyardultra.run" target="_blank" rel="noopener" class="runivore-event">
+          <span class="runivore-event-name">Taipei Backyard Ultra</span>
+          <span class="runivore-event-desc" data-i18n="tbu_desc">台北版 — 沒有終點的比賽</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ══ FOOTER ══ -->
 <footer>
   <div class="footer-top">
@@ -1325,7 +1385,7 @@
     <p class="footer-copy" data-i18n="footer_copy">© 2026 Beat the Sunset. 版權所有。</p>
     <div class="footer-runivore">
       <span data-i18n="footer_org">主辦單位</span>
-      <img src="assets/runivore-logo.png" alt="Runivore">
+      <a href="https://www.runivore.com" target="_blank" rel="noopener" style="line-height:0;"><img src="assets/runivore-logo.png" alt="Runivore"></a>
     </div>
   </div>
 </footer>
@@ -1426,6 +1486,8 @@
       sponsors_link: '了解更多關於贊助商 →',
       footer_contact_col: '聯絡',
       footer_copy: '© 2026 Beat the Sunset. 版權所有。', footer_org: '主辦單位',
+      runivore_label: '主辦單位', runivore_tagline: '我們熱愛舉辦獨特有趣的跑步活動。',
+      eyb_desc: '新北最硬派的近超馬越野賽事', tbu_desc: '台北版 — 沒有終點的比賽',
       faqs: [
         { q: '賽道如何標示？', a: '賽道以彩帶與粉筆清楚標示，讓您隨時知道該往哪裡跑。' },
         { q: '賽道上有補給站嗎？', a: '由於賽道僅2.9公里，建議您在每圈結束後充分補給。您也可以自備水壺上場。現場另設有AED急救跑者，隨時監控跑者狀況。' },
@@ -1537,6 +1599,8 @@
       sponsors_link: 'Learn More About Our Sponsors →',
       footer_contact_col: 'Contact',
       footer_copy: '© 2026 Beat the Sunset. All rights reserved.', footer_org: 'Organized by',
+      runivore_label: 'Organized by', runivore_tagline: 'We love to organize unique and fun running events.',
+      eyb_desc: "Possibly the toughest sub-ultra trail race in New Taipei", tbu_desc: "Taipei's edition of the race that has no end",
       faqs: [
         { q: 'How will the route be marked?', a: 'The route will be marked with a combination of ribbons and chalk so you always know where to go.' },
         { q: 'Will there be aid stations along the way?', a: 'No — the course is only 2.9 km so we recommend you hydrate well between your laps. You may also bring a water bottle for your lap. There will also be AED runners on the course to monitor for any runners in distress.' },
