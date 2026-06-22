@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Promo Generator — Beat the Sunset</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:      oklch(0.63 0.22 42);
+      --deep-orange: oklch(0.53 0.22 34);
+      --gold:        oklch(0.83 0.17 82);
+      --dark:        oklch(0.10 0.025 28);
+      --dark2:       oklch(0.15 0.03 28);
+      --cream:       oklch(0.97 0.016 72);
+      --border:      rgba(0,0,0,0.1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      min-height: 100vh;
+    }
+
+    /* ══ TOP BAR ══ */
+    .topbar {
+      background: var(--dark);
+      padding: 0.9rem 2rem;
+      display: flex; align-items: center; gap: 1rem;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+    }
+    .topbar-logo img { height: 28px; opacity: 0.85; display: block; }
+    .topbar-sep { width: 1px; height: 24px; background: rgba(255,255,255,0.15); }
+    .topbar-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem; color: white; letter-spacing: 0.08em;
+    }
+    .topbar-badge {
+      font-size: 0.62rem; font-weight: 900; letter-spacing: 0.18em; text-transform: uppercase;
+      background: var(--orange); color: white;
+      padding: 0.2rem 0.6rem; border-radius: 2rem; margin-left: auto;
+    }
+
+    /* ══ LAYOUT ══ */
+    .tool-wrap {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      min-height: calc(100vh - 50px);
+    }
+
+    /* ══ LEFT PANEL ══ */
+    .panel-left {
+      background: white;
+      border-right: 1px solid var(--border);
+      padding: 1.8rem;
+      display: flex; flex-direction: column; gap: 1.4rem;
+      position: sticky; top: 50px;
+      height: calc(100vh - 50px);
+      overflow-y: auto;
+    }
+    .panel-left::-webkit-scrollbar { width: 4px; }
+    .panel-left::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 2px; }
+
+    .field-group { display: flex; flex-direction: column; gap: 0.45rem; }
+    .field-label {
+      font-size: 0.68rem; font-weight: 900; letter-spacing: 0.2em;
+      text-transform: uppercase; color: oklch(0.45 0.04 28);
+    }
+
+    select, textarea, input[type="text"] {
+      font-family: 'Nunito', 'PingFang TC', sans-serif;
+      font-size: 0.9rem; font-weight: 700;
+      border: 1.5px solid rgba(0,0,0,0.12);
+      border-radius: 10px; padding: 0.7rem 0.9rem;
+      background: white; color: var(--dark);
+      width: 100%;
+      transition: border-color 0.2s;
+      appearance: none; -webkit-appearance: none;
+    }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.9rem center;
+      padding-right: 2.2rem;
+    }
+    select:focus, textarea:focus, input[type="text"]:focus {
+      outline: none; border-color: var(--orange);
+    }
+    textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+
+    /* ══ HASHTAG INPUT ══ */
+    .hashtag-textarea { min-height: 60px; font-size: 0.82rem; color: oklch(0.45 0.08 230); }
+
+    /* ══ GALLERY PICKER ══ */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 5px;
+      max-height: 220px;
+      overflow-y: auto;
+      border: 1.5px solid rgba(0,0,0,0.1);
+      border-radius: 10px;
+      padding: 6px;
+      background: oklch(0.97 0.016 72);
+    }
+    .gallery-grid::-webkit-scrollbar { width: 4px; }
+    .gallery-grid::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 2px; }
+
+    .gallery-thumb {
+      aspect-ratio: 1;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color 0.15s, transform 0.15s;
+      position: relative;
+    }
+    .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .gallery-thumb:hover { border-color: var(--orange); transform: scale(1.04); }
+    .gallery-thumb.selected { border-color: var(--orange); }
+    .gallery-thumb.selected::after {
+      content: '✓';
+      position: absolute; inset: 0;
+      background: rgba(200, 90, 30, 0.35);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; color: white; font-weight: 900;
+    }
+
+    /* ══ UPLOAD ══ */
+    .upload-zone {
+      border: 2px dashed rgba(0,0,0,0.15);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+    .upload-zone:hover { border-color: var(--orange); background: oklch(0.99 0.01 50); }
+    .upload-zone.dragover { border-color: var(--orange); background: oklch(0.97 0.03 50); }
+    .upload-zone input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .upload-zone p { font-size: 0.8rem; opacity: 0.55; font-weight: 700; pointer-events: none; }
+    .upload-zone span { font-size: 0.72rem; color: var(--orange); font-weight: 900; pointer-events: none; }
+
+    /* ══ GENERATE BTN ══ */
+    .generate-btn {
+      background: var(--orange); color: white;
+      border: none; border-radius: 12px;
+      padding: 0.95rem; font-size: 1rem; font-weight: 900;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer; width: 100%;
+      transition: background 0.2s, transform 0.15s;
+      font-family: 'Nunito', sans-serif;
+    }
+    .generate-btn:hover { background: var(--deep-orange); transform: translateY(-1px); }
+    .generate-btn:active { transform: translateY(0); }
+
+    /* ══ RIGHT PANEL ══ */
+    .panel-right {
+      padding: 1.8rem 2rem;
+      display: flex; flex-direction: column; gap: 1.6rem;
+    }
+
+    .preview-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+      border: 1px solid var(--border);
+    }
+    .preview-img-wrap {
+      width: 100%; max-height: 400px; overflow: hidden;
+      background: var(--dark2);
+      display: flex; align-items: center; justify-content: center;
+      min-height: 200px;
+    }
+    .preview-img-wrap img {
+      width: 100%; max-height: 400px;
+      object-fit: contain; object-position: center;
+      display: block;
+    }
+    .preview-img-placeholder {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0.6rem; color: rgba(255,255,255,0.3); padding: 2rem;
+    }
+    .preview-img-placeholder svg { width: 48px; height: 48px; opacity: 0.4; }
+    .preview-img-placeholder p { font-size: 0.82rem; font-weight: 700; }
+
+    /* ══ OUTPUT BLOCKS ══ */
+    .output-blocks { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .output-block {
+      background: white;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+    .output-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.8rem 1rem;
+      border-bottom: 1px solid var(--border);
+      background: oklch(0.97 0.016 72);
+    }
+    .output-lang {
+      font-size: 0.68rem; font-weight: 900; letter-spacing: 0.2em;
+      text-transform: uppercase; color: oklch(0.45 0.04 28);
+    }
+    .copy-btn {
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.72rem; font-weight: 900; letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--dark); color: white;
+      border: none; border-radius: 6px;
+      padding: 0.3rem 0.75rem; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .copy-btn:hover { background: var(--orange); }
+    .copy-btn.copied { background: oklch(0.50 0.14 145); }
+    .output-textarea {
+      border: none; border-radius: 0;
+      min-height: 220px; padding: 1rem;
+      font-size: 0.85rem; line-height: 1.7;
+      resize: vertical;
+      background: white;
+    }
+
+    /* ══ SHARE ROW ══ */
+    .share-row {
+      display: flex; gap: 0.75rem; flex-wrap: wrap;
+    }
+    .share-btn {
+      display: flex; align-items: center; gap: 0.55rem;
+      padding: 0.8rem 1.4rem;
+      border: none; border-radius: 10px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.85rem; font-weight: 900;
+      cursor: pointer; text-decoration: none;
+      transition: opacity 0.2s, transform 0.15s;
+      letter-spacing: 0.04em;
+    }
+    .share-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .share-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .btn-fb { background: #1877F2; color: white; }
+    .btn-ig { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: white; }
+    .btn-download { background: var(--dark); color: white; }
+    .btn-download-img { background: oklch(0.93 0.016 72); color: var(--dark); border: 1.5px solid var(--border); }
+
+    /* ══ TOAST ══ */
+    .toast {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(4px);
+      background: var(--dark); color: white;
+      padding: 0.75rem 1.5rem; border-radius: 2rem;
+      font-size: 0.85rem; font-weight: 800;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.25s, transform 0.25s;
+      z-index: 999; white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ══ EMPTY STATE ══ */
+    .empty-state {
+      text-align: center; padding: 4rem 2rem; color: oklch(0.55 0.03 28);
+    }
+    .empty-state h3 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; margin-bottom: 0.5rem; }
+    .empty-state p { font-size: 0.9rem; opacity: 0.6; }
+
+    /* ══ RESPONSIVE ══ */
+    @media (max-width: 960px) {
+      .tool-wrap { grid-template-columns: 1fr; }
+      .panel-left { position: static; height: auto; }
+      .output-blocks { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .topbar { padding: 0.8rem 1rem; }
+      .panel-left, .panel-right { padding: 1.2rem; }
+      .gallery-grid { grid-template-columns: repeat(5, 1fr); max-height: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ TOP BAR ══ -->
+<header class="topbar">
+  <a href="/" class="topbar-logo"><img src="/assets/bts-logo-colors.png" alt="Beat the Sunset"></a>
+  <div class="topbar-sep"></div>
+  <span class="topbar-title">Promo Generator</span>
+  <span class="topbar-badge">Internal Tool</span>
+</header>
+
+<div class="tool-wrap">
+
+  <!-- ══ LEFT: CONTROLS ══ -->
+  <aside class="panel-left">
+
+    <div class="field-group">
+      <label class="field-label" for="template-select">Post Template</label>
+      <select id="template-select">
+        <option value="registration">🎉 Registration Open</option>
+        <option value="earlybird">⏰ Early Bird Deadline</option>
+        <option value="countdown">📅 Race Countdown</option>
+        <option value="raceday">🔥 Race Day</option>
+        <option value="redpoint">🍺 Sponsor — Redpoint Brewing</option>
+        <option value="beastrunners">⏱ Sponsor — Beast Runners</option>
+        <option value="volunteer">🙋 Volunteer Callout</option>
+        <option value="custom">✏️ Custom Message</option>
+      </select>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="custom-note">Custom Note <span style="opacity:0.45;font-weight:700;text-transform:none;letter-spacing:0">(optional — added to template)</span></label>
+      <textarea id="custom-note" placeholder="Add extra details, a specific message, or leave blank to use the template as-is..."></textarea>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label" for="hashtag-input">Hashtags</label>
+      <textarea id="hashtag-input" class="hashtag-textarea">#跑過夕陽 #BeatTheSunset #Runivore #台灣跑步 #TrailRunning #新北市 #RunTaiwan #TaiwanRunning</textarea>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Image — Pick from Gallery</label>
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Or Upload Your Own</label>
+      <div class="upload-zone" id="upload-zone">
+        <input type="file" id="image-upload" accept="image/*">
+        <p>Drop an image here or <span>click to browse</span></p>
+      </div>
+    </div>
+
+    <button class="generate-btn" id="generate-btn">Generate Post ↓</button>
+
+  </aside>
+
+  <!-- ══ RIGHT: OUTPUT ══ -->
+  <main class="panel-right" id="panel-right">
+
+    <!-- Image preview -->
+    <div class="preview-card" id="preview-card">
+      <div class="preview-img-wrap" id="preview-img-wrap">
+        <div class="preview-img-placeholder" id="preview-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <path d="M21 15l-5-5L5 21"/>
+          </svg>
+          <p>Select an image from the gallery<br>or upload one above</p>
+        </div>
+        <img id="preview-img" src="" alt="" style="display:none;">
+      </div>
+    </div>
+
+    <!-- Generated text output -->
+    <div id="output-area" style="display:none;">
+
+      <div class="output-blocks">
+        <!-- Chinese -->
+        <div class="output-block">
+          <div class="output-header">
+            <span class="output-lang">中文 Chinese</span>
+            <button class="copy-btn" id="copy-zh">Copy</button>
+          </div>
+          <textarea class="output-textarea" id="output-zh" placeholder="Generated Chinese post will appear here..."></textarea>
+        </div>
+        <!-- English -->
+        <div class="output-block">
+          <div class="output-header">
+            <span class="output-lang">English</span>
+            <button class="copy-btn" id="copy-en">Copy</button>
+          </div>
+          <textarea class="output-textarea" id="output-en" placeholder="Generated English post will appear here..."></textarea>
+        </div>
+      </div>
+
+      <!-- Share buttons -->
+      <div class="share-row">
+        <button class="share-btn btn-fb" id="share-fb">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+          Share to Facebook
+        </button>
+        <button class="share-btn btn-ig" id="share-ig">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          Share to Instagram
+        </button>
+        <button class="share-btn btn-download-img" id="download-img">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download Image
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Empty state shown before first generate -->
+    <div class="empty-state" id="empty-state">
+      <h3>Your post will appear here</h3>
+      <p>Pick a template, add your message, choose an image, then hit Generate.</p>
+    </div>
+
+  </main>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ══ CONFIG ══
+  const SITE_URL = 'https://beatthesunset.run';
+  const FB_PAGE  = 'https://www.facebook.com/beatthesunset';
+
+  const PHOTOS = [
+    { src: '/assets/BTS-Start-website.jpg',   label: 'Start line' },
+    { src: '/assets/bts-downhill.jpg',         label: 'Downhill runner' },
+    { src: '/assets/leading-bts.jpg',          label: 'Leading runner' },
+    { src: '/assets/bts-high-fve.jpg',         label: 'High five' },
+    { src: '/assets/bts-runners-we.jpg',       label: 'Runners together' },
+    { src: '/assets/bts-djs.jpg',              label: 'DJs' },
+    { src: '/assets/runners-bts.jpg',          label: 'Runners on course' },
+    { src: '/assets/runners-bts2.jpg',         label: 'Runners' },
+    { src: '/assets/runners-bts3.jpg',         label: 'Runners' },
+    { src: '/assets/runners-bts5.jpg',         label: 'Race energy' },
+    { src: '/assets/bts-runner9.jpg',          label: 'Runner' },
+    { src: '/assets/bts-start.jpg',            label: 'Race start' },
+    { src: '/assets/bts-start2.jpg',           label: 'Race start 2' },
+    { src: '/assets/BTS-start-race-web.jpg',   label: 'Start race' },
+    { src: '/assets/BTS-website-runner.jpg',   label: 'Runner' },
+    { src: '/assets/BTS-website.jpg',          label: 'BTS website' },
+    { src: '/assets/BTS-course.jpg',           label: 'Course' },
+    { src: '/assets/volunteers.jpg',           label: 'Volunteers' },
+    { src: '/assets/BTS-doggie.jpg',           label: 'Race day dog' },
+    { src: '/assets/AED-runners.jpg',          label: 'AED runners' },
+    { src: '/assets/BTS-AED.jpg',              label: 'AED' },
+    { src: '/assets/Redpoint1.jpeg',           label: 'Redpoint beer' },
+    { src: '/assets/redpoint2.jpeg',           label: 'Redpoint beer' },
+    { src: '/assets/redpoint5.jpeg',           label: 'Redpoint Brewing' },
+    { src: '/assets/redpoint7.jpeg',           label: 'Redpoint' },
+    { src: '/assets/redpoint10.jpeg',          label: 'Post-race beer' },
+    { src: '/assets/Beastrunners-Organizers.jpg', label: 'Beast Runners team' },
+    { src: '/assets/beastrunners.jpg',         label: 'Beast Runners' },
+  ];
+
+  // ══ TEMPLATES ══
+  function daysUntilRace() {
+    const race = new Date('2026-11-07T12:00:00+08:00');
+    return Math.max(0, Math.ceil((race - new Date()) / 86400000));
+  }
+
+  const T = {
+    registration: {
+      zh: (note, tags) =>
+`🌅 跑過夕陽 2026 正式開放報名！${note ? '\n\n' + note : ''}
+
+📅 日期：2026年11月7日（週六）
+📍 地點：妙覺禪寺，土城，新北
+⏰ 中午12:00 開跑，跑到日落
+
+🔥 早鳥優惠 NT$2,100 — 限前100名！
+一般報名 NT$2,300｜晚鳥 NT$2,500
+
+立即報名 👇
+${SITE_URL}
+
+${tags}`,
+      en: (note, tags) =>
+`🌅 Beat the Sunset 2026 registration is officially OPEN!${note ? '\n\n' + note : ''}
+
+📅 Date: Saturday, November 7, 2026
+📍 Venue: Miaojue Temple, Tucheng, New Taipei
+⏰ Noon to sunset
+
+🔥 Early bird NT$2,100 — first 100 runners only!
+Regular NT$2,300 · Late NT$2,500
+
+Register now 👇
+${SITE_URL}
+
+${tags}`
+    },
+
+    earlybird: {
+      zh: (note, tags) =>
+`⏰ 早鳥優惠快截止了！${note ? '\n\n' + note : ''}
+
+跑過夕陽 2026 早鳥票只剩最後名額——
+只需 NT$2,100，限前100名報名！
+
+超過就要 NT$2,300，別等了 💸
+
+📅 2026年11月7日｜妙覺禪寺，土城，新北
+報名 👉 ${SITE_URL}
+
+${tags}`,
+      en: (note, tags) =>
+`⏰ Early bird is almost gone!${note ? '\n\n' + note : ''}
+
+Beat the Sunset 2026 early bird spots are nearly full —
+NT$2,100 for the first 100 runners. After that it's NT$2,300.
+
+Don't wait! 💸
+
+📅 Nov 7, 2026 · Miaojue Temple, Tucheng
+Register 👉 ${SITE_URL}
+
+${tags}`
+    },
+
+    countdown: {
+      zh: (note, tags) => {
+        const d = daysUntilRace();
+        return `🌅 距離跑過夕陽 2026 只剩 ${d} 天！${note ? '\n\n' + note : ''}
+
+你準備好了嗎？中午12點出發，全力奔跑，在太陽下山之前完成最多圈數。
+
+這不只是比賽——是與夕陽的一場約定。
+
+📅 2026年11月7日｜妙覺禪寺，土城，新北
+報名 👉 ${SITE_URL}
+
+${tags}`;
+      },
+      en: (note, tags) => {
+        const d = daysUntilRace();
+        return `🌅 ${d} days until Beat the Sunset 2026!${note ? '\n\n' + note : ''}
+
+Are you ready? Noon start. Race the sun. Most laps wins.
+
+This isn't just a race — it's a date with the sunset.
+
+📅 November 7, 2026 · Miaojue Temple, Tucheng
+Register 👉 ${SITE_URL}
+
+${tags}`;
+      }
+    },
+
+    raceday: {
+      zh: (note, tags) =>
+`🔥 今天就是比賽日！跑過夕陽 2026 正式開跑！🌅${note ? '\n\n' + note : ''}
+
+妙覺禪寺的跑道正等著你——中午12:00準時出發！
+每一圈都是你與夕陽之間的戰鬥。加油！💪
+
+📍 妙覺禪寺，土城，新北
+
+${tags}`,
+      en: (note, tags) =>
+`🔥 IT'S RACE DAY! Beat the Sunset 2026 is GO! 🌅${note ? '\n\n' + note : ''}
+
+The course at Miaojue Temple is set — noon start, race until the sun drops!
+Every lap is you vs. the sunset. Let's GO! 💪
+
+📍 Miaojue Temple, Tucheng, New Taipei
+
+${tags}`
+    },
+
+    redpoint: {
+      zh: (note, tags) =>
+`🍺 感謝 Redpoint Brewing 贊助跑過夕陽 2026！${note ? '\n\n' + note : ''}
+
+每位完賽者都能喝到一杯冰涼的 Redpoint 精釀啤酒🍻
+跑贏夕陽，然後好好犒賞自己——你值得！
+
+Redpoint 是台灣歷史最悠久的獨立精釀啤酒廠之一，也是 Runivore 長期的支持夥伴。
+
+了解更多 👉 redpointbrewing.com
+比賽報名 👉 ${SITE_URL}
+
+${tags} #RedpointBrewing`,
+      en: (note, tags) =>
+`🍺 Big thank you to Redpoint Brewing for sponsoring Beat the Sunset 2026!${note ? '\n\n' + note : ''}
+
+Every finisher gets a cold Redpoint craft beer 🍻
+Beat the sunset. Then treat yourself — you've earned it.
+
+One of Taiwan's longest-running independent craft breweries and a proud Runivore partner.
+
+Learn more 👉 redpointbrewing.com
+Register 👉 ${SITE_URL}
+
+${tags} #RedpointBrewing`
+    },
+
+    beastrunners: {
+      zh: (note, tags) =>
+`⏱ 感謝 Beast Runners 提供世界級計時服務！${note ? '\n\n' + note : ''}
+
+跑過夕陽 2026 的每一圈成績，都將由 Beast Runners 精準記錄——確保你與夕陽的競賽留下真實數字！
+
+Beast Runners 是 Formosa Trail 與 Explore Your Backyard 背後的精英團隊，也是 Runivore 的長期合作夥伴。
+
+比賽報名 👉 ${SITE_URL}
+
+${tags} #BeastRunners`,
+      en: (note, tags) =>
+`⏱ Huge shoutout to Beast Runners for bringing world-class timing to Beat the Sunset 2026!${note ? '\n\n' + note : ''}
+
+Every lap, every second — tracked with precision by the team behind Formosa Trail and Explore Your Backyard.
+
+The best timing support in Taiwan, and proud Runivore partners.
+
+Register 👉 ${SITE_URL}
+
+${tags} #BeastRunners`
+    },
+
+    volunteer: {
+      zh: (note, tags) =>
+`🙋 跑過夕陽 2026 誠徵志工！${note ? '\n\n' + note : ''}
+
+不想跑步，也想參與台灣最精彩的比賽日？加入我們的志工團隊！
+
+✅ 免費活動 T 恤與紀念品
+✅ 提供餐點與飲料
+✅ 賽後和所有選手一起慶祝
+✅ 與超棒的跑步社群共同創造回憶
+
+📅 2026年11月7日｜妙覺禪寺，土城，新北
+聯絡我們：info@runivore.com
+
+${tags}`,
+      en: (note, tags) =>
+`🙋 Volunteers wanted for Beat the Sunset 2026!${note ? '\n\n' + note : ''}
+
+Not running but still want to be part of the action? Join our volunteer team!
+
+✅ Free event T-shirt & merch
+✅ Meals and refreshments all day
+✅ Join the post-race celebration with all participants
+✅ Be part of one of Taiwan's most exciting race days!
+
+📅 Nov 7, 2026 · Miaojue Temple, Tucheng
+Contact: info@runivore.com
+
+${tags}`
+    },
+
+    custom: {
+      zh: (note, tags) =>
+`🌅 跑過夕陽 2026${note ? '\n\n' + note : ''}
+
+📅 2026年11月7日（週六）
+📍 妙覺禪寺，土城，新北
+⏰ 中午12:00 至日落
+
+報名 👉 ${SITE_URL}
+
+${tags}`,
+      en: (note, tags) =>
+`🌅 Beat the Sunset 2026${note ? '\n\n' + note : ''}
+
+📅 Saturday, November 7, 2026
+📍 Miaojue Temple, Tucheng, New Taipei
+⏰ Noon to sunset
+
+Register 👉 ${SITE_URL}
+
+${tags}`
+    }
+  };
+
+  // ══ STATE ══
+  let selectedImageSrc = null;
+  let uploadedImageURL = null;
+
+  // ══ BUILD GALLERY GRID ══
+  const grid = document.getElementById('gallery-grid');
+  PHOTOS.forEach(({ src, label }) => {
+    const div = document.createElement('div');
+    div.className = 'gallery-thumb';
+    div.title = label;
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = label;
+    img.loading = 'lazy';
+    div.appendChild(img);
+    div.addEventListener('click', () => {
+      document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('selected'));
+      div.classList.add('selected');
+      uploadedImageURL = null;
+      selectedImageSrc = src;
+      showPreviewImage(src);
+    });
+    grid.appendChild(div);
+  });
+
+  // ══ IMAGE UPLOAD ══
+  const uploadInput = document.getElementById('image-upload');
+  const uploadZone  = document.getElementById('upload-zone');
+
+  uploadInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    handleUpload(file);
+  });
+
+  uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+  uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+  uploadZone.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadZone.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) handleUpload(file);
+  });
+
+  function handleUpload(file) {
+    const url = URL.createObjectURL(file);
+    uploadedImageURL = url;
+    selectedImageSrc = url;
+    document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('selected'));
+    showPreviewImage(url);
+    uploadZone.querySelector('p').innerHTML = `<strong style="color:var(--orange)">${file.name}</strong> selected`;
+  }
+
+  // ══ PREVIEW IMAGE ══
+  function showPreviewImage(src) {
+    const placeholder = document.getElementById('preview-placeholder');
+    const img = document.getElementById('preview-img');
+    img.src = src;
+    img.style.display = 'block';
+    placeholder.style.display = 'none';
+  }
+
+  // ══ GENERATE ══
+  document.getElementById('generate-btn').addEventListener('click', generate);
+
+  function generate() {
+    const type = document.getElementById('template-select').value;
+    const note = document.getElementById('custom-note').value.trim();
+    const tags = document.getElementById('hashtag-input').value.trim();
+
+    const tmpl = T[type] || T.custom;
+    const zh = tmpl.zh(note, tags);
+    const en = tmpl.en(note, tags);
+
+    document.getElementById('output-zh').value = zh;
+    document.getElementById('output-en').value = en;
+
+    document.getElementById('output-area').style.display = 'block';
+    document.getElementById('empty-state').style.display = 'none';
+
+    // Scroll output into view on mobile
+    if (window.innerWidth < 960) {
+      document.getElementById('output-area').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  // ══ COPY BUTTONS ══
+  async function copyText(id, btn) {
+    const text = document.getElementById(id).value;
+    if (!text) { toast('Nothing to copy yet — hit Generate first'); return; }
+    try {
+      await navigator.clipboard.writeText(text);
+      btn.textContent = 'Copied ✓';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2200);
+    } catch {
+      toast('Copy failed — try selecting and copying manually');
+    }
+  }
+
+  document.getElementById('copy-zh').addEventListener('click', function() { copyText('output-zh', this); });
+  document.getElementById('copy-en').addEventListener('click', function() { copyText('output-en', this); });
+
+  // ══ FACEBOOK SHARE ══
+  document.getElementById('share-fb').addEventListener('click', async () => {
+    const zhText = document.getElementById('output-zh').value;
+    const enText = document.getElementById('output-en').value;
+    if (!zhText && !enText) { toast('Generate a post first'); return; }
+
+    const fullText = [zhText, enText].filter(Boolean).join('\n\n──────\n\n');
+    try { await navigator.clipboard.writeText(fullText); } catch {}
+
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(SITE_URL),
+      '_blank', 'width=600,height=500,noopener'
+    );
+    toast('Text copied — paste it into your Facebook post');
+  });
+
+  // ══ INSTAGRAM SHARE ══
+  document.getElementById('share-ig').addEventListener('click', async () => {
+    const zhText = document.getElementById('output-zh').value;
+    const enText = document.getElementById('output-en').value;
+    if (!zhText && !enText) { toast('Generate a post first'); return; }
+
+    const fullText = [zhText, enText].filter(Boolean).join('\n\n──────\n\n');
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ text: fullText, url: SITE_URL, title: 'Beat the Sunset 2026' });
+        return;
+      } catch {}
+    }
+
+    // Desktop fallback
+    try { await navigator.clipboard.writeText(fullText); } catch {}
+    toast('Text copied — download the image, then paste into Instagram');
+  });
+
+  // ══ DOWNLOAD IMAGE ══
+  document.getElementById('download-img').addEventListener('click', () => {
+    if (!selectedImageSrc) { toast('Select an image first'); return; }
+
+    const a = document.createElement('a');
+    a.href = selectedImageSrc;
+
+    // For gallery images (same-origin paths), get filename
+    if (selectedImageSrc.startsWith('/assets/')) {
+      a.download = selectedImageSrc.split('/').pop();
+    } else {
+      a.download = 'bts-promo-image.jpg';
+    }
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    toast('Image downloading...');
+  });
+
+  // ══ TOAST ══
+  let toastTimer;
+  function toast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+  }
+</script>
+</body>
+</html>
