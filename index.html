@@ -967,7 +967,7 @@
     </div>
 
     <div class="hero-btns">
-      <a href="/registration" class="btn btn-primary" data-i18n="hero_btn_register">立即報名</a>
+      <a href="/participants" class="btn btn-primary" data-i18n="hero_btn_register">查看參賽名單</a>
       <a href="#video"   class="btn btn-ghost" data-i18n="hero_btn_video">觀看比賽影片</a>
     </div>
   </div>
@@ -1160,7 +1160,8 @@
   <div class="container">
     <span class="eyebrow" style="color:var(--gold)" data-i18n="pricing_eyebrow">報名</span>
     <h2 class="title white" data-i18n="pricing_title">加入賽事</h2>
-    <p style="opacity:0.82; font-size:1.05rem; max-width:460px;" data-i18n="pricing_sub">搶先鎖定名額，別讓太陽先一步。早鳥限額前100名，只需 NT$2,100。</p>
+    <p style="opacity:0.82; font-size:1.05rem; max-width:460px;" data-i18n="pricing_sub">2026 名額已滿。以下為本屆報名費用，供參考。</p>
+    <div class="reg-closed" style="margin:1.4rem 0 2rem; padding:1.2rem 1.5rem; border:2px solid var(--gold); border-radius:14px; max-width:640px; font-weight:800; line-height:1.5;"><span data-i18n="closed_title">報名已截止。</span> <span style="font-weight:600; opacity:0.85" data-i18n="closed_sub">感謝大家的熱烈報名。名額轉讓請透過 Facebook 私訊我們，我們會幫雙方牽線。</span> <a href="https://www.facebook.com/beatthesunset" target="_blank" rel="noopener" style="color:var(--gold); text-decoration:underline;" data-i18n="closed_link">聯絡我們</a></div>
     <div class="pricing-grid">
       <!-- Early Bird -->
       <div class="price-card featured">
@@ -1170,7 +1171,7 @@
         <div class="price-big"><span class="price-curr">NT$</span>2,100</div>
         <div class="price-note" data-i18n="early_note">限前100名報名 · 額滿即止</div>
         <ul class="price-list" id="price-list-featured"></ul>
-        <a href="/registration" class="btn btn-primary btn-block" style="font-size:1rem; padding:1rem;" data-i18n="early_cta">立即報名 — 早鳥</a>
+        <span class="btn btn-primary btn-block btn-block" style="font-size:1rem; padding:1rem; opacity:0.45; pointer-events:none;" data-i18n="early_cta">報名已截止</span>
       </div>
       <!-- Regular -->
       <div class="price-card">
@@ -1179,7 +1180,7 @@
         <div class="price-big"><span class="price-curr">NT$</span>2,300</div>
         <div class="price-note" data-i18n="reg_note">7月31日前有效</div>
         <ul class="price-list" id="price-list-regular"></ul>
-        <a href="/registration" class="btn btn-ghost btn-block" style="font-size:1rem; padding:1rem;" data-i18n="reg_cta">報名</a>
+        <span class="btn btn-ghost btn-block btn-block" style="font-size:1rem; padding:1rem; opacity:0.45; pointer-events:none;" data-i18n="reg_cta">報名已截止</span>
       </div>
       <!-- Late -->
       <div class="price-card">
@@ -1188,7 +1189,7 @@
         <div class="price-big"><span class="price-curr">NT$</span>2,500</div>
         <div class="price-note" data-i18n="late_note">8月1日起開放報名</div>
         <ul class="price-list" id="price-list-late"></ul>
-        <a href="/registration" class="btn btn-ghost btn-block" style="font-size:1rem; padding:1rem;" data-i18n="late_cta">報名</a>
+        <span class="btn btn-ghost btn-block btn-block" style="font-size:1rem; padding:1rem; opacity:0.45; pointer-events:none;" data-i18n="late_cta">報名已截止</span>
       </div>
     </div>
     <p style="margin-top:1.5rem; font-size:0.82rem; opacity:0.7; font-weight:700;" data-i18n="discount_note">🎟 2011年1月1日後出生之兒童享85折優惠 · 2008年1月1日後出生之年輕單匹狼享9折優惠——結帳時自動套用。</p>
@@ -1305,7 +1306,7 @@
     <span class="eyebrow" style="color:rgba(255,255,255,0.65)" data-i18n="reg_eyebrow">2026年11月7日</span>
     <h2 class="title" data-i18n="reg_title">跑·挑戰·慶祝</h2>
     <p class="register-sub" data-i18n="reg_sub">中午至日落。歡迎各程度。難忘的比賽體驗。</p>
-    <a href="/registration" class="btn btn-dark" style="font-size:1.1rem; padding:1.1rem 2.8rem;" data-i18n="reg_cta_btn">立即報名</a>
+    <a href="https://www.facebook.com/beatthesunset" target="_blank" rel="noopener" class="btn btn-dark" style="font-size:1.1rem; padding:1.1rem 2.8rem;" data-i18n="reg_cta_btn">報名已截止 · 名額轉讓請私訊</a>
     <p class="register-note" data-i18n="reg_note_text">早鳥 NT$2,100 · 一般 NT$2,300 · 前100名享早鳥優惠</p>
   </div>
 </section>
@@ -1392,7 +1393,7 @@
       hero_date_val: '11月7日 星期六', hero_time_val: '中午12:00 至 日落',
       hero_venue_val: '妙覺禪寺｜新北市土城區',
       hero_quote: '「可能是全世界最有趣的比賽。」',
-      hero_btn_register: '立即報名', hero_btn_video: '觀看比賽影片',
+      hero_btn_register: '查看參賽名單', hero_btn_video: '觀看比賽影片',
       hero_scroll: '向下滑動',
       cd_days: '天', cd_hrs: '時', cd_min: '分', cd_sec: '秒',
       race_day: '比賽日到了！🌅',
@@ -1442,14 +1443,15 @@
       vol_role4: '攝影', vol_role5: '場地支援', vol_role6: '終點線',
       vol_note: '無需任何經驗——我們將提供完整培訓！',
       pricing_eyebrow: '報名', pricing_title: '加入賽事',
-      pricing_sub: '搶先鎖定名額，別讓太陽先一步。早鳥限額前100名，只需 NT$2,100。',
+      pricing_sub: '2026 名額已滿。以下為本屆報名費用，供參考。',
       ribbon_text: '限額', early_pill: '🔥 5月31日截止或前100名', early_name: '早鳥',
-      early_note: '有效期至5月31日或前100名報名，以先到者為準', early_cta: '立即報名 — 早鳥',
+      early_note: '有效期至5月31日或前100名報名，以先到者為準', early_cta: '報名已截止',
 
       reg_pill: '一般報名', reg_name: '一般',
-      reg_note: '7月31日前有效', reg_cta: '報名',
+      reg_note: '7月31日前有效', reg_cta: '報名已截止',
       late_pill: '晚鳥報名', late_name: '晚鳥',
-      late_note: '8月1日起開放報名', late_cta: '報名',
+      late_note: '8月1日起開放報名', late_cta: '報名已截止',
+      closed_title: '報名已截止。', closed_sub: '感謝大家的熱烈報名。名額轉讓請透過 Facebook 私訊我們，我們會幫雙方牽線。', closed_link: '聯絡我們',
       discount_note: '🎟 2011年1月1日後出生之兒童享85折優惠 · 2008年1月1日後出生之年輕單匹狼享9折優惠——結帳時自動套用。',
       features: [
         '活動紀念禮物', '活動 T 恤', '活動意外保險',
@@ -1462,8 +1464,8 @@
       faq_eyebrow: '常見問題',
       reg_eyebrow: '2026年11月7日', reg_title: '跑·挑戰·慶祝',
       reg_sub: '中午至日落。歡迎各程度。難忘的比賽體驗。',
-      reg_cta_btn: '立即報名',
-      reg_note_text: '早鳥 NT$2,100 · 一般 NT$2,300 · 前100名享早鳥優惠',
+      reg_cta_btn: '報名已截止 · 名額轉讓請私訊',
+      reg_note_text: '報名已額滿截止。想參賽？偶爾會有跑者釋出名額，請追蹤我們的 Facebook。',
       footer_tagline: '與夕陽競速。妙覺禪寺，土城 · 2026年11月7日。',
       footer_race_col: '比賽', footer_about: '關於比賽', footer_how: '活動方式',
       footer_course: '賽道', footer_pricing: '報名',
@@ -1501,7 +1503,7 @@
       hero_date_val: 'November 7, 2026', hero_time_val: 'Noon to Sunset',
       hero_venue_val: 'Miaojue Temple, Tucheng',
       hero_quote: '"Probably the most fun race in the world."',
-      hero_btn_register: 'Register Now', hero_btn_video: 'Watch the Race',
+      hero_btn_register: 'See Who Is Running', hero_btn_video: 'Watch the Race',
       hero_scroll: 'Scroll',
       cd_days: 'Days', cd_hrs: 'Hrs', cd_min: 'Min', cd_sec: 'Sec',
       race_day: 'Race Day! 🌅',
@@ -1553,14 +1555,15 @@
       vol_role5: 'Setup and teardown crew', vol_role6: 'Finish line support',
       vol_note: 'No experience necessary — we will provide all training needed!',
       pricing_eyebrow: 'Registration', pricing_title: 'Join the Race',
-      pricing_sub: 'Lock in your spot before the sun does. The early bird price is strictly limited — valid until May 31 or first 100 registrants get in at NT$2,100.',
+      pricing_sub: 'The 2026 edition is full. Pricing below is shown for reference.',
       ribbon_text: 'Limited', early_pill: '🔥 Until May 31 or First 100 Runners', early_name: 'Early Bird',
-      early_note: 'Valid until May 31 or first 100 registrants — whichever comes first', early_cta: 'Register — Early Bird',
+      early_note: 'Valid until May 31 or first 100 registrants — whichever comes first', early_cta: 'Registration Closed',
       early_soon_note: '⏳ Opening Soon',
       reg_pill: 'Regular Registration', reg_name: 'Regular',
-      reg_note: 'Valid until July 31', reg_cta: 'Register',
+      reg_note: 'Valid until July 31', reg_cta: 'Registration Closed',
       late_pill: 'Late Registration', late_name: 'Late',
-      late_note: 'Available from August 1', late_cta: 'Register',
+      late_note: 'Available from August 1', late_cta: 'Registration Closed',
+      closed_title: 'Registration is closed.', closed_sub: 'Thank you for the amazing response. For spot transfers, message us on Facebook and we will put both parties in touch.', closed_link: 'Contact us',
       discount_note: '🎟 15% discount for kids born on or after 2011-01-01 · 10% discount for young solo runners born on or after 2008-01-01 — applied automatically at checkout.',
       features: [
         'Race gift & event T-shirt',
@@ -1575,8 +1578,8 @@
       faq_eyebrow: 'Questions',
       reg_eyebrow: 'November 7, 2026', reg_title: 'Run. Beat. Celebrate.',
       reg_sub: 'Noon to sunset. All levels. One unforgettable race.',
-      reg_cta_btn: 'Register Now',
-      reg_note_text: 'Early Bird NT$2,100 · Regular NT$2,300 · First 100 registrants get early bird price',
+      reg_cta_btn: 'Registration Closed · Message Us for Transfers',
+      reg_note_text: 'Registration is full and closed. Still want in? Runners occasionally release their spots, follow our Facebook page.',
       footer_tagline: 'Race against the setting sun. Miaojue Temple, Tucheng · November 7, 2026.',
       footer_race_col: 'Race', footer_about: 'About', footer_how: 'How It Works',
       footer_course: 'Course', footer_pricing: 'Registration',
