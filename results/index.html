@@ -151,14 +151,12 @@
     }
 
     /* ══ RESULTS ══ */
-    .results-wrap {
-      max-width: 1100px; margin: 0 auto;
-      padding: 2.5rem 3rem 3rem;
-    }
+    .results-wrap { width: 100%; padding: 2rem 0 3rem; }
     .results-note {
+      max-width: 1100px; margin: 0 auto 1.25rem;
+      padding: 0 3rem;
       display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
       gap: 0.8rem 1.5rem;
-      margin-bottom: 1.5rem;
       font-size: 0.85rem; font-weight: 700; color: oklch(0.42 0.03 28);
     }
     .live-dot {
@@ -180,14 +178,8 @@
     .results-note a { color: var(--orange); text-decoration: none; font-weight: 800; }
     .results-note a:hover { text-decoration: underline; }
 
-    .results-card {
-      background: white;
-      border-radius: 24px;
-      box-shadow: 0 16px 48px rgba(0,0,0,0.10);
-      padding: 1.25rem;
-      min-height: 420px;
-      overflow-x: auto;
-    }
+    .results-card { width: 100%; background: white; min-height: 420px; }
+    #divRRPublish, .RRPublish { width: 100%; max-width: none; display: block; }
     /* RaceResult widget: let it inherit the site font, keep it readable on phones */
     #divRRPublish, #divRRPublish * {
       font-family: 'Nunito', 'PingFang TC', 'Microsoft JhengHei', sans-serif !important;
@@ -196,8 +188,8 @@
     #divRRPublish table { width: 100%; }
 
     @media (max-width: 600px) {
-      .results-wrap { padding: 1.5rem 1rem 2rem; }
-      .results-card { padding: 0.6rem; border-radius: 16px; }
+      .results-wrap { padding: 1.5rem 0 2rem; }
+      .results-note { padding: 0 1rem; }
       #divRRPublish { font-size: 0.85rem; }
     }
 
