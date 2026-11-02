@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>即時成績 — 跑過夕陽 2026</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/assets/bts-logo-colors.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --orange:      oklch(0.63 0.22 42);
+      --deep-orange: oklch(0.53 0.22 34);
+      --gold:        oklch(0.83 0.17 82);
+      --purple:      oklch(0.40 0.19 295);
+      --dark:        oklch(0.10 0.025 28);
+      --dark2:       oklch(0.15 0.03 28);
+      --cream:       oklch(0.97 0.016 72);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Nunito', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ══ NAV ══ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+      padding: 1rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(12,7,4,0.92);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 2px 30px rgba(0,0,0,0.4);
+    }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.75); text-decoration: none;
+      font-weight: 800; font-size: 0.72rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: white; }
+    .nav-cta {
+      background: var(--orange) !important;
+      color: white !important;
+      padding: 0.5rem 1.3rem;
+      border-radius: 2rem;
+    }
+    .nav-cta:hover { background: var(--deep-orange) !important; }
+
+    /* ══ LANG TOGGLE ══ */
+    .lang-toggle {
+      display: flex; align-items: center;
+      background: rgba(255,255,255,0.12);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      border-radius: 2rem; overflow: hidden;
+      flex-shrink: 0;
+    }
+    .lang-btn {
+      padding: 0.38rem 1rem;
+      font-family: 'Nunito', 'PingFang TC', sans-serif;
+      font-size: 0.78rem; font-weight: 900;
+      letter-spacing: 0.04em;
+      cursor: pointer; border: none; background: none;
+      color: rgba(255,255,255,0.55);
+      transition: all 0.2s; white-space: nowrap; line-height: 1;
+    }
+    .lang-btn.active {
+      background: white; color: var(--dark);
+      border-radius: 2rem; margin: 2px;
+    }
+
+    /* ══ HAMBURGER ══ */
+    .nav-hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      cursor: pointer; background: none; border: none; padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: white; border-radius: 2px;
+    }
+
+    /* ══ MOBILE OVERLAY ══ */
+    .mobile-overlay {
+      display: none; position: fixed; inset: 0; z-index: 400;
+      background: rgba(8,4,2,0.97);
+      flex-direction: column; align-items: center; justify-content: center;
+    }
+    .mobile-overlay.open { display: flex; }
+    .mobile-close {
+      position: absolute; top: 1.2rem; right: 1.5rem;
+      background: none; border: none; color: white; font-size: 1.6rem; cursor: pointer;
+    }
+    .mobile-nav { display: flex; flex-direction: column; align-items: center; gap: 0; width: 100%; }
+    .mobile-nav a {
+      color: rgba(255,255,255,0.75); text-decoration: none;
+      font-weight: 800; font-size: 0.78rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 1.15rem 2rem; width: 100%; text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      transition: color 0.2s, background 0.2s;
+    }
+    .mobile-nav a:first-child { border-top: 1px solid rgba(255,255,255,0.07); }
+    .mobile-nav a:hover { color: var(--gold); background: rgba(255,255,255,0.04); }
+    .mobile-nav a.mobile-cta {
+      background: var(--orange); color: white;
+      border-radius: 2rem; margin: 1.5rem 2rem; width: auto;
+      border: none; padding: 0.85rem 2rem;
+    }
+    .mobile-lang-row {
+      display: flex; gap: 2rem; margin-top: 2.5rem;
+      padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1);
+      justify-content: center;
+    }
+    .mobile-lang-btn {
+      font-family: 'Bebas Neue', 'PingFang TC', sans-serif;
+      font-size: 2.2rem; letter-spacing: 0.08em;
+      cursor: pointer; border: none; background: none;
+      color: rgba(255,255,255,0.28); padding: 0; transition: color 0.2s;
+    }
+    .mobile-lang-btn.active { color: white; }
+
+    /* ══ PAGE HEADER ══ */
+    .page-header {
+      padding: 7rem 3rem 3.5rem;
+      background: linear-gradient(135deg, var(--dark) 0%, oklch(0.18 0.06 35) 100%);
+      text-align: center; color: white;
+    }
+    .page-header-eyebrow {
+      font-size: 0.68rem; font-weight: 900; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--gold); opacity: 0.85;
+      margin-bottom: 0.75rem;
+    }
+    .page-header h1 {
+      font-family: 'Bebas Neue', 'PingFang TC', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      letter-spacing: 0.04em; line-height: 1;
+      color: white;
+    }
+    .page-header p {
+      margin-top: 1rem;
+      font-size: 1rem; opacity: 0.65; font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    /* ══ RESULTS ══ */
+    .results-wrap {
+      max-width: 1100px; margin: 0 auto;
+      padding: 2.5rem 3rem 3rem;
+    }
+    .results-note {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 0.8rem 1.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem; font-weight: 700; color: oklch(0.42 0.03 28);
+    }
+    .live-dot {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.7rem; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--orange);
+    }
+    .live-dot::before {
+      content: ''; width: 9px; height: 9px; border-radius: 50%;
+      background: var(--orange);
+      box-shadow: 0 0 0 0 oklch(0.63 0.22 42 / 0.6);
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 oklch(0.63 0.22 42 / 0.55); }
+      70%  { box-shadow: 0 0 0 9px oklch(0.63 0.22 42 / 0); }
+      100% { box-shadow: 0 0 0 0 oklch(0.63 0.22 42 / 0); }
+    }
+    .results-note a { color: var(--orange); text-decoration: none; font-weight: 800; }
+    .results-note a:hover { text-decoration: underline; }
+
+    .results-card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.10);
+      padding: 1.25rem;
+      min-height: 420px;
+      overflow-x: auto;
+    }
+    /* RaceResult widget: let it inherit the site font, keep it readable on phones */
+    #divRRPublish, #divRRPublish * {
+      font-family: 'Nunito', 'PingFang TC', 'Microsoft JhengHei', sans-serif !important;
+    }
+    #divRRPublish { font-size: 0.95rem; }
+    #divRRPublish table { width: 100%; }
+
+    @media (max-width: 600px) {
+      .results-wrap { padding: 1.5rem 1rem 2rem; }
+      .results-card { padding: 0.6rem; border-radius: 16px; }
+      #divRRPublish { font-size: 0.85rem; }
+    }
+
+    /* ══ FOOTER ══ */
+    footer {
+      background: oklch(0.94 0.018 72); color: var(--dark);
+      padding: 3.5rem 3rem 2rem;
+      margin-top: 4rem;
+    }
+    .footer-top {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      flex-wrap: wrap; gap: 2.5rem; max-width: 1100px; margin: 0 auto;
+      padding-bottom: 2rem; border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    .footer-brand { display: flex; flex-direction: column; gap: 0.8rem; }
+    .footer-logo { display: inline-block; }
+    .footer-logo img { height: 56px; display: block; }
+    .footer-tagline { font-size: 0.8rem; opacity: 0.5; font-weight: 700; max-width: 220px; line-height: 1.55; }
+    .footer-cols { display: flex; gap: 4rem; flex-wrap: wrap; }
+    .footer-col h6 {
+      font-size: 0.68rem; font-weight: 900; letter-spacing: 0.2em;
+      text-transform: uppercase; opacity: 0.35; margin-bottom: 1rem;
+      color: var(--dark);
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-col a {
+      color: oklch(0.35 0.04 28); text-decoration: none;
+      font-size: 0.88rem; font-weight: 700; transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--orange); }
+    .footer-col .footer-contact-text {
+      color: oklch(0.35 0.04 28); font-size: 0.88rem; font-weight: 700; line-height: 1.6;
+    }
+    .footer-bottom {
+      max-width: 1100px; margin: 1.5rem auto 0;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy { font-size: 0.72rem; opacity: 0.35; }
+    .footer-runivore { display: flex; align-items: center; gap: 0.6rem; }
+    .footer-runivore span { font-size: 0.72rem; opacity: 0.45; font-weight: 700; }
+    .footer-runivore img { height: 22px; opacity: 0.55; }
+
+    @media (max-width: 960px) {
+      nav { padding: 1rem 1.5rem; justify-content: flex-end; }
+      .nav-hamburger { display: flex; }
+      .nav-links { display: none !important; }
+    }
+    @media (max-width: 600px) {
+      .page-header { padding: 6rem 1.5rem 2.5rem; }
+      footer { padding: 2.5rem 1.2rem 1.5rem; }
+      .footer-cols { gap: 2rem; }
+      .footer-top { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<nav id="nav">
+  <ul class="nav-links" id="nav-links">
+    <li><a href="/" data-i18n="nav_home">關於比賽</a></li>
+    <li><a href="/registration" data-i18n="nav_registration">報名</a></li>
+    <li><a href="/participants" data-i18n="nav_participants">參賽者</a></li>
+    <li><a href="/#volunteer" data-i18n="nav_volunteer">志工</a></li>
+    <li><a href="/#faq" data-i18n="nav_faq">常見問題</a></li>
+    <li><a href="/sponsors" data-i18n="nav_sponsors">贊助商</a></li>
+    <li><a href="/results" data-i18n="nav_results">成績</a></li>
+    <li><a href="/registration" class="nav-cta" data-i18n="nav_cta">報名</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn active" data-lang="zh">中文</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+  </div>
+  <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ══ MOBILE MENU ══ -->
+<div class="mobile-overlay" id="mobile-overlay">
+  <button class="mobile-close" id="mobile-close">✕</button>
+  <nav class="mobile-nav">
+    <a href="/" data-i18n="nav_home">關於比賽</a>
+    <a href="/registration" data-i18n="nav_registration">報名</a>
+    <a href="/participants" data-i18n="nav_participants">參賽者</a>
+    <a href="/#volunteer" data-i18n="nav_volunteer">志工</a>
+    <a href="/#faq" data-i18n="nav_faq">常見問題</a>
+    <a href="/sponsors" data-i18n="nav_sponsors">贊助商</a>
+    <a href="/results" data-i18n="nav_results">成績</a>
+    <a href="/registration" class="mobile-cta" data-i18n="nav_cta">報名</a>
+  </nav>
+  <div class="mobile-lang-row">
+    <button class="mobile-lang-btn active" data-lang="zh">中文</button>
+    <button class="mobile-lang-btn" data-lang="en">EN</button>
+  </div>
+</div>
+
+<!-- ══ PAGE HEADER ══ -->
+<header class="page-header">
+  <p class="page-header-eyebrow" data-i18n="header_eyebrow">跑過夕陽 2026 · 11月7日</p>
+  <h1 data-i18n="page_title_h1">即時成績</h1>
+  <p data-i18n="page_sub">每一圈成績即時更新，由 Beast Runners 計時</p>
+</header>
+
+<!-- ══ RESULTS ══ -->
+<div class="results-wrap">
+  <div class="results-note">
+    <span class="live-dot" data-i18n="live_label">即時更新</span>
+    <span>
+      <span data-i18n="note_text">成績在比賽期間自動更新。若畫面未顯示，請</span>
+      <a href="https://my.raceresult.com/399064/" target="_blank" rel="noopener" data-i18n="note_link">在 RaceResult 開啟完整成績 →</a>
+    </span>
+  </div>
+  <div class="results-card">
+    <div id="divRRPublish" class="RRPublish"></div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo"><img src="/assets/bts-logo-colors.png" alt="Beat the Sunset"></div>
+      <p class="footer-tagline" data-i18n="footer_tagline">與夕陽競速。妙覺禪寺，土城 · 2026年11月7日。</p>
+    </div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h6 data-i18n="footer_race_col">比賽</h6>
+        <ul>
+          <li><a href="/#about" data-i18n="footer_about">關於比賽</a></li>
+          <li><a href="/#how" data-i18n="footer_how">活動方式</a></li>
+          <li><a href="/#course" data-i18n="footer_course">賽道</a></li>
+          <li><a href="/registration" data-i18n="footer_pricing">報名</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h6 data-i18n="footer_info_col">資訊</h6>
+        <ul>
+          <li><a href="/#gallery" data-i18n="footer_gallery">照片</a></li>
+          <li><a href="/#volunteer" data-i18n="footer_volunteer">志工</a></li>
+          <li><a href="/#faq" data-i18n="footer_faq">常見問題</a></li>
+          <li><a href="/sponsors" data-i18n="footer_sponsors">贊助商</a></li>
+          <li><a href="/results" data-i18n="footer_results">成績</a></li>
+          <li><a href="https://www.facebook.com/beatthesunset" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://maps.app.goo.gl/ssHdq1iNLrmkngn88" target="_blank" rel="noopener" data-i18n="footer_map">場地地圖</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h6 data-i18n="footer_contact_col">聯絡</h6>
+        <ul>
+          <li><a href="mailto:info@runivore.com">info@runivore.com</a></li>
+          <li><span class="footer-contact-text">Tom (English): 0987-117-699</span></li>
+          <li><span class="footer-contact-text">Lily (中文): 0920-831-011</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy" data-i18n="footer_copy">© 2026 Beat the Sunset. 版權所有。</p>
+    <div class="footer-runivore">
+      <span data-i18n="footer_org">主辦單位</span>
+      <a href="https://www.runivore.com" target="_blank" rel="noopener" style="line-height:0;"><img src="/assets/runivore-logo.png" alt="Runivore"></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const translations = {
+    zh: {
+      page_title: '即時成績 — 跑過夕陽 2026',
+      nav_home: '首頁', nav_registration: '報名', nav_participants: '參賽者',
+      nav_volunteer: '志工', nav_faq: '常見問題', nav_sponsors: '贊助商', nav_results: '成績', nav_cta: '報名',
+      header_eyebrow: '跑過夕陽 2026 · 11月7日',
+      page_title_h1: '即時成績',
+      page_sub: '每一圈成績即時更新，由 Beast Runners 計時',
+      live_label: '即時更新',
+      note_text: '成績在比賽期間自動更新。若畫面未顯示，請',
+      note_link: '在 RaceResult 開啟完整成績 →',
+      footer_tagline: '與夕陽競速。妙覺禪寺，土城 · 2026年11月7日。',
+      footer_race_col: '比賽', footer_about: '關於比賽', footer_how: '活動方式',
+      footer_course: '賽道', footer_pricing: '報名',
+      footer_info_col: '資訊', footer_gallery: '照片', footer_volunteer: '志工',
+      footer_faq: '常見問題', footer_sponsors: '贊助商', footer_results: '成績', footer_map: '場地地圖',
+      footer_contact_col: '聯絡',
+      footer_copy: '© 2026 Beat the Sunset. 版權所有。', footer_org: '主辦單位',
+    },
+    en: {
+      page_title: 'Live Results — Beat the Sunset 2026',
+      nav_home: 'Home', nav_registration: 'Registration', nav_participants: 'Participants',
+      nav_volunteer: 'Volunteer', nav_faq: 'FAQ', nav_sponsors: 'Sponsors', nav_results: 'Results', nav_cta: 'Register',
+      header_eyebrow: 'Beat the Sunset 2026 · November 7',
+      page_title_h1: 'Live Results',
+      page_sub: 'Every lap, updated live. Timing by Beast Runners.',
+      live_label: 'Live',
+      note_text: 'Results refresh automatically during the race. If nothing loads,',
+      note_link: 'open the full results on RaceResult →',
+      footer_tagline: 'Race against the setting sun. Miaojue Temple, Tucheng · November 7, 2026.',
+      footer_race_col: 'Race', footer_about: 'About', footer_how: 'How It Works',
+      footer_course: 'Course', footer_pricing: 'Registration',
+      footer_info_col: 'Info', footer_gallery: 'Gallery', footer_volunteer: 'Volunteer',
+      footer_faq: 'FAQ', footer_sponsors: 'Sponsors', footer_results: 'Results', footer_map: 'Venue Map',
+      footer_contact_col: 'Contact',
+      footer_copy: '© 2026 Beat the Sunset. All rights reserved.', footer_org: 'Organized by',
+    }
+  };
+
+  let currentLang = localStorage.getItem('bts-lang') || 'zh';
+
+  function setLang(lang) {
+    const L = translations[lang];
+    document.documentElement.lang = lang === 'zh' ? 'zh-TW' : 'en';
+    document.title = L.page_title;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (L[key] !== undefined) el.textContent = L[key];
+    });
+    document.querySelectorAll('.lang-btn, .mobile-lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+    localStorage.setItem('bts-lang', lang);
+    currentLang = lang;
+  }
+
+  document.querySelectorAll('.lang-btn, .mobile-lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  });
+
+  document.getElementById('hamburger').addEventListener('click', () => {
+    document.getElementById('mobile-overlay').classList.add('open');
+  });
+  document.getElementById('mobile-close').addEventListener('click', () => {
+    document.getElementById('mobile-overlay').classList.remove('open');
+  });
+  document.querySelectorAll('.mobile-nav a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.getElementById('mobile-overlay').classList.remove('open');
+    });
+  });
+
+  setLang(currentLang);
+</script>
+<script type="text/javascript" src="https://my.raceresult.com/RRPublish/load.js?lang=en"></script>
+<script type="text/javascript">
+  let rrp = new RRPublish(document.getElementById("divRRPublish"), 399064, "results");
+  rrp.ShowTimerLogo = true;
+  rrp.ShowInfoText = false;
+</script>
+</body>
+</html>
