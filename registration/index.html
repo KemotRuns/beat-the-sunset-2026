@@ -268,6 +268,18 @@
   <p style="margin-top:1.4rem; font-size:0.9rem; opacity:0.7;"><a href="/participants" style="color:inherit; text-decoration:underline;" data-i18n="closed_participants">查看參賽名單</a></p>
 </div>
 
+<!-- ══ RACERESULT WIDGET (kept for self-service links: edit entry, upload team logo/photo) ══ -->
+<div class="widget-wrap" style="padding-top:0;">
+  <p style="text-align:center; font-size:0.85rem; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; opacity:0.5; margin:0 0 1rem;" data-i18n="selfservice_note">已報名？請使用報名確認信中的自助服務連結，編輯資料或上傳隊伍照片／Logo</p>
+  <div id="divRRRegStart" class="RRRegStart"></div>
+  <script type="text/javascript" src="https://my.raceresult.com/RRRegStart/load.js?lang=en"></script>
+  <script type="text/javascript">
+    let rrs = new RRRegStart(document.getElementById("divRRRegStart"), 399064, "registration");
+    rrs.ShowTimerLogo = true;
+    rrs.ShowInfoText = false;
+  </script>
+</div>
+
 <!-- ══ FOOTER ══ -->
 <footer>
   <div class="footer-top">
@@ -323,7 +335,7 @@
       nav_volunteer: '志工', nav_faq: '常見問題', nav_sponsors: '贊助商', nav_results: '成績', nav_cta: '報名',
       reg_eyebrow: '2026年11月7日',
       page_reg_title: '報名',
-      closed_title: '報名已截止', closed_sub: '感謝大家的熱烈報名，2026 跑過夕陽名額已滿。', closed_transfer: '偶爾會有跑者因故釋出名額。想接手名額，或想轉讓自己的名額，請透過 Facebook 私訊我們，我們會幫雙方牽線（費用由雙方自行處理）。', closed_cta: 'Facebook 私訊我們', closed_participants: '查看參賽名單',
+      closed_title: '報名已截止', closed_sub: '感謝大家的熱烈報名，2026 跑過夕陽名額已滿。', closed_transfer: '偶爾會有跑者因故釋出名額。想接手名額，或想轉讓自己的名額，請透過 Facebook 私訊我們，我們會幫雙方牽線（費用由雙方自行處理）。', closed_cta: 'Facebook 私訊我們', closed_participants: '查看參賽名單', selfservice_note: '已報名？請使用報名確認信中的自助服務連結，編輯資料或上傳隊伍照片／Logo',
       page_reg_sub: '跑過夕陽 2026 — 妙覺禪寺，土城，新北',
       footer_tagline: '與夕陽競速。妙覺禪寺，土城 · 2026年11月7日。',
       footer_race_col: '比賽', footer_about: '關於比賽', footer_how: '活動方式',
@@ -339,7 +351,7 @@
       nav_volunteer: 'Volunteer', nav_faq: 'FAQ', nav_sponsors: 'Sponsors', nav_results: 'Results', nav_cta: 'Register',
       reg_eyebrow: 'November 7, 2026',
       page_reg_title: 'Registration',
-      closed_title: 'Registration Closed', closed_sub: 'Thank you for the amazing response. Beat the Sunset 2026 is full.', closed_transfer: 'Now and then a runner has to release a spot. If you want to take one over, or pass yours on, message us on Facebook and we will put both parties in touch (payment is settled between you).', closed_cta: 'Message us on Facebook', closed_participants: 'See who is running',
+      closed_title: 'Registration Closed', closed_sub: 'Thank you for the amazing response. Beat the Sunset 2026 is full.', closed_transfer: 'Now and then a runner has to release a spot. If you want to take one over, or pass yours on, message us on Facebook and we will put both parties in touch (payment is settled between you).', closed_cta: 'Message us on Facebook', closed_participants: 'See who is running', selfservice_note: 'Already registered? Use the self-service link from your confirmation email to edit your entry or upload a team photo / logo',
       page_reg_sub: 'Beat the Sunset 2026 — Miaojue Temple, Tucheng, New Taipei',
       footer_tagline: 'Race against the setting sun. Miaojue Temple, Tucheng · November 7, 2026.',
       footer_race_col: 'Race', footer_about: 'About', footer_how: 'How It Works',
